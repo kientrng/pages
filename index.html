@@ -178,10 +178,31 @@ function setFilter(t,b){
 
 function apply(){
   let list=[...all];
-  if(current==='recent') list = list.sort(sortDesc).slice(0,6);
-  if(['10','11','12'].includes(current)) list = list.filter(f=>f.grade==current);
+
+  // 🔹 Khi bấm "Tất cả" → luôn sort (lớp)-(số)-(môn) giảm dần
+  if(current==='all'){
+    list = list.sort(sortDesc);
+  }
+
+  // Gần đây
+  if(current==='recent'){
+    list = list.sort(sortDesc).slice(0,6);
+  }
+
+  // Lọc theo lớp
+  if(['10','11','12'].includes(current)){
+    list = list.filter(f=>f.grade==current).sort(sortDesc);
+  }
+
+  // Tìm kiếm
   const k = q.value.trim().toLowerCase();
-  if(k) list = list.filter(f=> (f.grade+'-'+f.num+'-'+f.subject+'-'+f.desc).toLowerCase().includes(k));
+  if(k){
+    list = list.filter(f=>
+      (f.grade+'-'+f.num+'-'+f.subject+'-'+f.desc)
+        .toLowerCase().includes(k)
+    );
+  }
+
   render(list);
 }
 
