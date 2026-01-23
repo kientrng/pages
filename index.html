@@ -256,6 +256,18 @@ function apply(){
   if(keyword){
     list = list.filter(f => `${f.grade}-${f.num}-${f.subject}-${f.desc}`.toLowerCase().includes(keyword));
   }
+  const music = document.getElementById('bgMusic');
+const musicStatus = document.getElementById('musicStatus');
+
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+    musicStatus.innerText = 'Đang phát nhạc';
+  }else{
+    music.pause();
+    musicStatus.innerText = 'Đã tạm dừng';
+  }
+}
 
   // TAB "TẤT CẢ": sort and render all
   if(current==='all'){
@@ -310,4 +322,5 @@ fetch(api).then(r=>r.json()).then(d=>{
 </script>
 </body>
 </html>
+
 
