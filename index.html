@@ -190,24 +190,24 @@ function setFilter(t,b){
 }
 
 function apply(){
-  let list = [...all];
+  let list=[...all];
 
+  // search filter applies to all tabs
   const keyword = q.value.trim().toLowerCase();
   if(keyword){
-    list = list.filter(f => {
-      const text = `${f.grade}-${f.num}-${f.subject}-${f.desc}`.toLowerCase();
-      return text.includes(keyword);
-    });
+    list = list.filter(f => `${f.grade}-${f.num}-${f.subject}-${f.desc}`.toLowerCase().includes(keyword));
   }
 
-  // 🔹 TAB "TẤT CẢ" → sort theo (lớp)-(số)-(môn) giảm dần
+  // TAB "TẤT CẢ": sort and render all
   if(current==='all'){
     render(list.sort(sortDesc));
     return;
   }
 
-  // 🔹 TAB "GẦN ĐÂY" → hiển thị 3 dòng (12 / 11 / 10) trong GRID
+  // TAB "GẦN ĐÂY": render 3 separate horizontal rows (12,11,10)
   if(current==='recent'){
+    // hide top "File gần đây" section
+    document.getElementById('recentSection').style.display = 'none';
     const grades = ['12','11','10'];
     grid.innerHTML = grades.map(g=>{
       const items = list.filter(f=>f.grade==g).sort(sortDesc);
@@ -224,8 +224,10 @@ function apply(){
     return;
   }
 
-  // 🔹 TAB THEO LỚP
+  // TAB THEO LỚP (10/11/12)
   if(['10','11','12'].includes(current)){
+    // ensure top "File gần đây" shown when viewing a single class
+    document.getElementById('recentSection').style.display = 'block';
     render(list.filter(f=>f.grade==current).sort(sortDesc));
     return;
   }
