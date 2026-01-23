@@ -5,114 +5,99 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Chốn Học Tập — KienDev_</title>
 <link rel="icon" href="avatar.png">
-<!-- Font: Outfit (clean, modern, very stylish) -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#030516;
   --card:#081225;
-  --muted:#95a6c7;
+  --muted:#95a5c7;
   --accent1:#7C3AED;
   --accent2:#06B6D4;
   --pink1:#ffb86b;
   --pink2:#ff6bcb;
-  --grade10-start: #FF9966; /* orange */
-  --grade10-end: #FF5E7E;
-  --grade11-start: #7C3AED; /* purple */
-  --grade11-end: #06B6D4;
-  --grade12-start: #06B6D4; /* teal */
-  --grade12-end: #34D1FF;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#eaf2ff;font-family:'Outfit',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+*{box-sizing:border-box;font-family:Poppins}
+body{margin:0;background:var(--bg);color:#eaf2ff}
 .wrap{max-width:1200px;margin:auto;padding:20px}
 
-/* Header */
-.top{display:flex;gap:16px;align-items:center;padding:16px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-.avatar{width:64px;height:64px;border-radius:12px}
-.title h1{margin:0;font-size:20px;font-weight:700}
+/* ===== TOP ===== */
+.top{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.avatar{width:64px;height:64px;border-radius:14px}
+.title h1{margin:0;font-size:20px}
 .title p{margin:4px 0 0;color:var(--muted);font-size:13px}
 .controls{margin-left:auto}
-.search{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:var(--muted)}
+.search{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
 
-/* filters */
+/* ===== FILTERS ===== */
 .filters{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:600;color:var(--muted);cursor:pointer}
-.pill.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white}
-.pill .btn-icon{width:30px;height:30px;border-radius:8px;display:inline-grid;place-items:center;color:white;font-weight:700}
-.pill .btn-icon.all{background:linear-gradient(90deg,var(--accent1),#4cc9f0)}
-.pill .btn-icon.recent{background:linear-gradient(90deg,#2dd4bf,#7c3aed)}
-.pill .btn-icon.g10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
-.pill .btn-icon.g11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
-.pill .btn-icon.g12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
+.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer;font-size:13px}
+.filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
 
-.section-title{margin:18px 0 8px;color:var(--muted);font-weight:600}
+/* ===== SECTIONS ===== */
+.section{margin-top:22px}
+.section h3{margin:0 0 10px;font-size:14px;color:var(--muted)}
 
-/* recent */
-.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px}
+/* ===== RECENT ===== */
+.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth}
+.recent-row .card{min-width:260px}
 .recent-row::-webkit-scrollbar{height:8px}
 .recent-row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
 
-/* grid/cards */
+/* ===== GRID ===== */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.card{padding:16px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03);position:relative}
+
+/* ===== CARD ===== */
+.card{padding:16px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
+.card:hover{transform:translateY(-6px)}
+.top-badge{position:absolute;top:14px;left:14px;padding:4px 8px;font-size:11px;font-weight:700;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
+
 .card-top{display:flex;gap:12px;align-items:center}
-.top-badge{position:absolute;top:12px;left:12px;padding:4px 8px;border-radius:999px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;font-weight:800}
-.file-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center}
-.file-icon.grade-10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
-.file-icon.grade-11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
-.file-icon.grade-12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
-.file-icon.other{background:linear-gradient(90deg,#6b7280,#111827)}
+.file-icon{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:26px}
+.name{font-weight:700;font-size:15px}
+.sub{font-size:12px;color:var(--muted);margin-top:4px}
 
-/* New: SVG styling - only affect the book (rect) color */
-.file-icon svg { width:28px;height:36px;display:block }
-.file-icon svg .book-shape { fill:#fff; }
-.file-icon.grade-10 svg .book-shape { fill:#FF9966; }
-.file-icon.grade-11 svg .book-shape { fill:#8b5cf6; }
-.file-icon.grade-12 svg .book-shape { fill:#06b6d4; }
-.file-icon.other svg .book-shape { fill:#d1d5db; }
+.actions{margin-top:14px;display:flex;gap:10px}
+.btn-view{flex:1;padding:10px;border-radius:10px;border:0;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white}
+.btn-dl{flex:1;padding:10px;border-radius:10px;font-weight:700;text-decoration:none;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;display:flex;align-items:center;justify-content:center}
 
-.name{font-weight:700}
-.sub{margin-top:6px;color:var(--muted);font-size:13px}
-.actions{margin-top:12px;display:flex;gap:10px}
-.btn-view{flex:1;padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white;font-weight:700}
-.btn-dl{flex:1;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center}
-
-/* ellipsis */
+/* small helper: ellipsis for long descriptions */
 .desc-ellipsis{display:block;max-height:2.6em;overflow:hidden;text-overflow:ellipsis}
-
-@media(max-width:900px){.file-icon{width:46px;height:46px}}
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <div class="top">
     <img src="avatar.png" class="avatar">
     <div class="title">
       <h1>CHỐN HỌC TẬP</h1>
       <p>Code by KienDev — Xem & Tải tài liệu</p>
     </div>
-    <div class="controls"><input id="q" class="search" placeholder="Tìm mã & tên đề..."></div>
+    <div class="controls">
+      <input id="q" class="search" placeholder="Tìm mã đề...">
+    </div>
   </div>
 
   <div class="filters">
-    <div class="pill active" onclick="setFilter('all',this)"><span class="btn-icon all">🏠</span> Tất cả</div>
-    <div class="pill" onclick="setFilter('recent',this)"><span class="btn-icon recent">🕘</span> Gần đây</div>
-    <div class="pill" onclick="setFilter('10',this)"><span class="btn-icon g10">10</span> Lớp 10</div>
-    <div class="pill" onclick="setFilter('11',this)"><span class="btn-icon g11">11</span> Lớp 11</div>
-    <div class="pill" onclick="setFilter('12',this)"><span class="btn-icon g12">12</span> Lớp 12</div>
+    <button class="active" onclick="setFilter('all',this)">Tất cả</button>
+    <button onclick="setFilter('recent',this)">🆕 Gần đây</button>
+    <button onclick="setFilter('10',this)">Lớp 10</button>
+    <button onclick="setFilter('11',this)">Lớp 11</button>
+    <button onclick="setFilter('12',this)">Lớp 12</button>
   </div>
 
+  <!-- FILE GẦN ĐÂY (phần riêng, hiển thị khi không ở tab Gần đây) -->
   <div class="section" id="recentSection">
-    <div class="section-title">File gần đây</div>
+    <h3>File gần đây</h3>
     <div id="recent" class="recent-row"></div>
   </div>
 
   <div class="section">
-    <div class="section-title" id="mainTitle">Tất cả</div>
+    <h3 id="mainTitle">Tất cả</h3>
     <div id="grid" class="grid"></div>
   </div>
+
 </div>
 
 <script>
@@ -124,23 +109,18 @@ const recent=document.getElementById("recent");
 const q=document.getElementById("q");
 let all=[],current="all";
 
+// remove extension and preserve unicode
 const clean = n => n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
-function extOf(n){const m=n.match(/\.([a-z0-9]+)$/i);return m?m[1].toLowerCase():''}
+// choose icon by extension
+const icon = n => /\.pdf$/i.test(n)? '📕' : /\.doc/i.test(n)? '📘' : '📄';
 
-// New svgBook (simple rounded-rect 'phone/book' shape) and svgNote
-const svgBook = `
-<svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <!-- outer phone/book silhouette -->
-  <rect x="4" y="2" width="16" height="28" rx="3" ry="3" fill="none" stroke="rgba(0,0,0,0.08)"/>
-  <!-- inner page/screen that will be colored via .book-shape -->
-  <rect class="book-shape" x="7" y="6" width="10" height="20" rx="1.5" />
-</svg>`;
-const svgNote = `
-<svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M4 3h11l5 5v19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="#fff" opacity="0.06"/>
-  <path d="M8 10h8v2H8zM8 14h8v2H8z" fill="#fff" opacity="0.12"/>
-</svg>`;
-
+/*
+  Parse filename format: (lớp)-(số)-(môn)-(mô tả).ext
+  - grade: p[0]
+  - num: p[1]
+  - subject: p[2]
+  - desc: p[3..].join('-') (optional)
+*/
 function parse(f){
   const base = clean(f.name);
   const p = base.split('-');
@@ -151,19 +131,25 @@ function parse(f){
   return {...f, grade, num, subject, desc };
 }
 
-const sortDesc = (a,b)=>{const g=Number(b.grade)-Number(a.grade);if(g!==0) return g;const n=Number(b.num)-Number(a.num);if(n!==0) return n;return b.subject.localeCompare(a.subject,'vi',{sensitivity:'base'});};
-function fileIconClass(grade){if(grade==='10') return 'grade-10';if(grade==='11') return 'grade-11';if(grade==='12') return 'grade-12';return 'other';}
+// sort theo (lớp)-(số)-(môn) giảm dần
+const sortDesc = (a,b)=>{
+  // lớp: 12 -> 11 -> 10
+  const g = Number(b.grade) - Number(a.grade);
+  if(g!==0) return g;
+  // số: lớn -> nhỏ
+  const n = Number(b.num) - Number(a.num);
+  if(n!==0) return n;
+  // môn: so sánh chữ (Z -> A)
+  return b.subject.localeCompare(a.subject,'vi',{sensitivity:'base'});
+};
 
 function card(f){
   const topLine = `${f.grade}-${f.num}-${f.subject}`.replace(/^-|-$|--/g,'');
-  const cls = fileIconClass(f.grade);
-  const ext = extOf(f.name);
-  const iconSvg = (ext==='pdf' || /doc/.test(ext)) ? svgBook : svgNote;
   return `
-<div class="card" style="position:relative">
+<div class="card">
   <div class="top-badge">${f.grade}</div>
   <div class="card-top">
-    <div class="file-icon ${cls}">${iconSvg}</div>
+    <div class="file-icon">${icon(f.name)}</div>
     <div>
       <div class="name">${topLine}</div>
       <div class="sub desc-ellipsis">${escapeHtml(f.desc)}</div>
@@ -177,15 +163,74 @@ function card(f){
 }
 
 function render(list){grid.innerHTML=list.map(card).join('');}
-function renderRecent(){const pick=g=>all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);const recentList=[...pick('12'),...pick('11'),...pick('10')];recent.innerHTML=`<div class="recent-row">${recentList.map(card).join('')}</div>`;}
 
-function setFilter(t,b){document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));if(b) b.classList.add('active');current=t;document.getElementById('mainTitle').innerText=b?b.innerText:'Tất cả';document.getElementById('recentSection').style.display=(t==='recent')?'none':'block';apply();}
+function renderRecent(){
+  // Chỉ lấy 2 file mới nhất cho mỗi lớp → ghép thành 1 dòng ngang (File gần đây)
+  const pick = g => all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
+  const recentList = [...pick('12'), ...pick('11'), ...pick('10')];
+  recent.innerHTML = `<div class="recent-row">${recentList.map(card).join('')}</div>`;
+}
 
-function apply(){let list=[...all];if(current==='all'){render(list.sort(sortDesc));return;}if(current==='recent'){const grades=['12','11','10'];grid.innerHTML=grades.map(g=>{const items=list.filter(f=>f.grade==g).sort(sortDesc);if(!items.length) return '';return `<div class="section"><h3 style="margin:0 0 8px;color:var(--muted)">Lớp ${g}</h3><div class="recent-row">${items.map(card).join('')}</div></div>`;}).join('');return;}if(['10','11','12'].includes(current)){render(list.filter(f=>f.grade==current).sort(sortDesc));return;}}
+function setFilter(t,b){
+  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  current=t;
+  document.getElementById('mainTitle').innerText = b.innerText;
 
-q.oninput=apply;function openView(u,n){location.href=`view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}`}
-function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-fetch(api).then(r=>r.json()).then(d=>{all=d.filter(x=>x.type==='file').map(parse);renderRecent();apply();});
+  // Khi chọn tab GẦN ĐÂY → ẩn section "File gần đây" ở trên cùng
+  document.getElementById('recentSection').style.display = (t==='recent') ? 'none' : 'block';
+
+  apply();
+}
+
+function apply(){
+  let list=[...all];
+
+  // 🔹 TAB "TẤT CẢ" → sort theo (lớp)-(số)-(môn) giảm dần
+  if(current==='all'){
+    render(list.sort(sortDesc));
+    return;
+  }
+
+  // 🔹 TAB "GẦN ĐÂY" → hiển thị 3 dòng (12 / 11 / 10) trong GRID
+  if(current==='recent'){
+    const grades = ['12','11','10'];
+    grid.innerHTML = grades.map(g=>{
+      const items = list.filter(f=>f.grade==g).sort(sortDesc);
+      if(!items.length) return '';
+      return `
+        <div class="section">
+          <h3 style="margin:0 0 8px;color:var(--muted)">Lớp ${g}</h3>
+          <div class="recent-row">
+            ${items.map(card).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+    return;
+  }
+
+  // 🔹 TAB THEO LỚP
+  if(['10','11','12'].includes(current)){
+    render(list.filter(f=>f.grade==current).sort(sortDesc));
+    return;
+  }
+}
+
+q.oninput = apply;
+
+function openView(u,n){ location.href = `view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}` }
+
+// simple html escape to avoid accidental html injection from filenames
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+fetch(api).then(r=>r.json()).then(d=>{
+  all = d.filter(x=>x.type==='file').map(parse);
+  renderRecent();
+  apply();
+});
 </script>
 </body>
 </html>
