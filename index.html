@@ -19,20 +19,9 @@
     --card:#0b0f1a;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:"Poppins",sans-serif;
-    background:#030516;
-    color:#e7f0ff;
-  }
+  body{margin:0;font-family:"Poppins",sans-serif;background:#030516;color:#e7f0ff;}
   .wrap{max-width:1200px;margin:auto;padding:20px;}
-  .top{
-    display:flex;flex-wrap:wrap;align-items:center;gap:16px;
-    padding:16px;border-radius:14px;
-    background:rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.05);
-    backdrop-filter:blur(6px);
-  }
+  .top{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:16px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(6px);}
   .brand{display:flex;align-items:center;gap:14px;}
   .avatar{width:70px;height:70px;border-radius:14px;object-fit:cover}
   .title h1{margin:0;font-size:20px;color:white;font-weight:600;}
@@ -59,86 +48,26 @@
   .controls-extended{display:flex;gap:8px;align-items:center;margin-top:10px;width:100%;}
   .meta-row{margin-top:12px;color:var(--muted);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between;}
 
-  /* Recent rows (3 lines) */
-  .recent-wrap{margin-top:18px;display:none}
-  .recent-row{
-    margin-top:18px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-    padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
-  }
-  .recent-row .row-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .recent-row .row-title{font-weight:700}
-  .recent-row .row-track-wrap{position:relative;margin-top:12px;overflow:hidden}
+  /* Recent rows */
+  .recent-wrap{margin-top:18px;display:block}
+  .recent-row{margin-top:18px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
+  .row-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .row-title{font-weight:700}
+  .row-track-wrap{position:relative;margin-top:12px;overflow:hidden}
   .recent-track{display:flex;gap:12px;transition:transform .38s cubic-bezier(.2,.9,.2,1);will-change:transform}
-  .recent-item{
-    min-width:260px;max-width:260px;background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 6px 18px rgba(2,6,23,0.4);opacity:0;transform:translateY(18px);
-    animation: itemIn .45s ease forwards;
-  }
-  @keyframes itemIn {
-    from{opacity:0;transform:translateY(18px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
+  .recent-item{min-width:260px;max-width:260px;background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);box-shadow: 0 6px 18px rgba(2,6,23,0.4);opacity:0;transform:translateY(18px);animation: itemIn .45s ease forwards;}
+  @keyframes itemIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
   .row-controls{display:flex;gap:8px;align-items:center}
-  .nav-btn{
-    width:44px;height:36px;border-radius:10px;border:0;cursor:pointer;font-weight:700;
-    background:linear-gradient(90deg,#111428,#0e1530);color:white;box-shadow:0 6px 18px rgba(2,6,23,0.7);
-    display:flex;align-items:center;justify-content:center;
-  }
+  .nav-btn{width:44px;height:36px;border-radius:10px;border:0;cursor:pointer;font-weight:700;background:linear-gradient(90deg,#111428,#0e1530);color:white;box-shadow:0 6px 18px rgba(2,6,23,0.7);display:flex;align-items:center;justify-content:center;}
   .nav-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(2,6,23,0.8)}
-
-  /* prettier pagination buttons */
-  .paging {
-    display:flex;gap:10px;
-  }
-  .page-btn{
-    padding:8px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;
-    background:linear-gradient(90deg, #f6f1ff, #e6f6ff);
-    color:#071023; box-shadow: 0 6px 18px rgba(124,58,237,0.08);
-    transition:transform .12s ease;
-  }
+  .paging{display:flex;gap:10px;}
+  .page-btn{padding:8px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;background:linear-gradient(90deg, #f6f1ff, #e6f6ff);color:#071023;box-shadow: 0 6px 18px rgba(124,58,237,0.08);transition:transform .12s ease;}
   .page-btn:hover{transform:translateY(-2px)}
-  .page-btn:active{transform:translateY(0)}
-
-  @media (max-width:900px){
-    .recent-item{min-width:220px;max-width:220px}
-  }
-  @media (max-width:600px){
-    .controls{margin-left:0;width:100%;justify-content:space-between;}
-    .search{flex:1}
-    .controls-extended{flex-direction:column;align-items:stretch}
-    .recent-item{min-width:180px;max-width:220px}
-    .page-btn{padding:8px 10px}
-  }
-
-  /* modal */
-  .modal {position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999;padding:20px;}
-  .modal .box {width:100%;max-width:1100px;height:80vh;background:#071023;border-radius:12px;padding:12px;display:flex;flex-direction:column;}
-  .modal iframe{flex:1;width:100%;border:0;border-radius:8px;background:white}
-  .modal .modal-top{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+  @media (max-width:900px){ .recent-item{min-width:220px;max-width:220px} }
+  @media (max-width:600px){ .controls{margin-left:0;width:100%;justify-content:space-between;} .search{flex:1} .controls-extended{flex-direction:column;align-items:stretch} .recent-item{min-width:180px;max-width:220px} .page-btn{padding:8px 10px} }
 </style>
 </head>
 <body>
-
-<div id="inapp-warning" style="
-  display:none;
-  background:#fff3cd;
-  color:#000;
-  padding:16px;
-  margin:12px;
-  border-radius:10px;
-  font-size:14px;
-  border:1px solid #ffe299;
-">
-  ⚠️ <b>Bạn đang mở trang này trong ứng dụng (TikTok, Messenger, Zalo...)</b><br>
-  Các ứng dụng này <b>không cho tải file</b>.<br><br>
-  ➤ Nhấn nút bên dưới để mở bằng trình duyệt thật:
-  <br><br>
-  <button onclick="openExternalBrowser()" style="padding:10px 16px;background:#0ea5e9;color:white;border:0;border-radius:8px;cursor:pointer;font-weight:700;">
-    🌐 Mở bằng Chrome / Cốc Cốc
-  </button>
-</div>
 
 <div class="wrap">
 
@@ -168,7 +97,7 @@
     <div class="pill" data-cat="12">Lớp 12</div>
   </div>
 
-  <!-- Recent area (3 rows) -->
+  <!-- RECENT (luôn hiện ở trên) -->
   <div class="recent-wrap" id="recentWrap">
     <div id="recent12" class="recent-row">
       <div class="row-head">
@@ -204,7 +133,7 @@
     </div>
   </div>
 
-  <!-- Controls extended (no filters/sort) -->
+  <!-- Controls (pagination đẹp) -->
   <div class="controls-extended">
     <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
       <div id="summary" style="color:var(--muted)">Đang tải...</div>
@@ -215,22 +144,9 @@
     </div>
   </div>
 
-  <!-- Grid chính -->
+  <!-- Grid chính (hiển thị theo mục) -->
   <div id="grid" class="grid"></div>
 
-</div>
-
-<!-- Modal preview -->
-<div id="previewModal" class="modal" onclick="closeModal(event)">
-  <div class="box" onclick="event.stopPropagation()">
-    <div class="modal-top">
-      <button onclick="closeModal()" class="small" style="background:rgba(255,255,255,0.03);color:white;border:0;border-radius:8px">✕ Đóng</button>
-      <div id="modalTitle" style="font-weight:700;color:white;margin-left:8px"></div>
-      <div style="flex:1"></div>
-      <a id="modalDownload" class="btn-primary" style="text-decoration:none;padding:10px 12px;border-radius:8px">⬇ Tải</a>
-    </div>
-    <iframe id="modalFrame" src=""></iframe>
-  </div>
 </div>
 
 <script>
@@ -247,9 +163,7 @@ function extIcon(name){
   if(/ppt|pptx/.test(e)) return "📊";
   return "📄";
 }
-function clean(n){
-  return n.replace(/\.(docx?|pdf|png|jpe?g|pptx?)$/i,"");
-}
+function clean(n){ return n.replace(/\.(docx?|pdf|png|jpe?g|pptx?)$/i,""); }
 function parseFileName(n){
   const base = clean(n);
   const parts = base.split("-");
@@ -267,13 +181,7 @@ const summary = document.getElementById("summary");
 const categories = document.getElementById("categories");
 const recentWrap = document.getElementById("recentWrap");
 
-let all=[];
-
-// pagination
-let currentPage = 1;
-const pageSize = 12;
-
-// carousel offsets per class
+let all=[]; let currentPage = 1; const pageSize = 12;
 const offsets = { '12':0, '11':0, '10':0 };
 
 async function load(){
@@ -283,69 +191,32 @@ async function load(){
     const r=await fetch(api);
     if(!r.ok) throw new Error("Không lấy được danh sách file");
     const d=await r.json();
-    all=d.filter(f=>f.type==="file").map(f=>{
-      const p = parseFileName(f.name);
-      return {...f, parsed: p};
-    });
-    renderEverything();
+    all=d.filter(f=>f.type==="file").map(f=> ({...f, parsed: parseFileName(f.name)}));
+    buildRecentRows(); renderPage(1);
   }catch(err){
-    grid.innerHTML="Lỗi tải dữ liệu.";
-    console.error(err);
+    grid.innerHTML="Lỗi tải dữ liệu."; console.error(err);
   }
 }
 
-function renderEverything(){
-  // set initial category to 'all' unless a specific pill already marked active
-  const activePill = categories.querySelector('.pill.active');
-  const cat = activePill ? activePill.dataset.cat : 'all';
-  currentCategory = cat;
-  updateUIVisibility();
-  if(currentCategory === 'recent'){
-    buildRecentRows();
-  } else {
-    renderPage(1);
-  }
-}
-
-// show/hide recent vs grid
-function updateUIVisibility(){
-  if(currentCategory === 'recent'){
-    recentWrap.style.display = 'block';
-    grid.style.display = 'none';
-  } else {
-    recentWrap.style.display = 'none';
-    grid.style.display = 'grid';
-  }
-}
-
-// build 3 rows (12,11,10). Each row lists all files of that class sorted desc by num
+// Build recent rows contents (all files for each class sorted desc by num)
 function buildRecentRows(){
   ['12','11','10'].forEach(cls=>{
     const track = document.querySelector('.recent-track[data-class="'+cls+'"]');
     track.innerHTML = '';
-    // items sorted (cls desc, num desc, name)
     const items = all.filter(f => String(f.parsed.cls) === cls)
       .sort((a,b)=>{
         if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
         if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
         return b.name.localeCompare(a.name);
       });
-
     if(items.length === 0){
-      // placeholder
-      const ph = document.createElement('div');
-      ph.className = 'recent-item';
+      const ph = document.createElement('div'); ph.className='recent-item';
       ph.innerHTML = `<div style="color:var(--muted)">Không có file cho lớp ${cls}.</div>`;
-      track.appendChild(ph);
-      return;
+      track.appendChild(ph); return;
     }
-
     items.forEach(f=>{
-      const n=f.name;
-      const title = f.parsed.title;
-      const raw=f.download_url;
-      const el = document.createElement('div');
-      el.className = 'recent-item';
+      const n=f.name, title=f.parsed.title, raw=f.download_url;
+      const el = document.createElement('div'); el.className='recent-item';
       el.innerHTML = `
         <div style="display:flex;gap:12px;align-items:center">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">${extIcon(n)}</div>
@@ -355,94 +226,73 @@ function buildRecentRows(){
           </div>
         </div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="action-btn view-btn" style="flex:1" onclick="openPreview('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">👁 Xem</button>
+          <button class="action-btn view-btn" style="flex:1" onclick="openView('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">👁 Xem</button>
           <a class="action-btn download-btn" style="flex:1;display:flex;align-items:center;justify-content:center" href="${raw}" download>⬇ Tải</a>
         </div>
       `;
       track.appendChild(el);
     });
-
-    // reset offset, transform
-    offsets[cls] = 0;
-    track.style.transform = 'translateX(0)';
+    offsets[cls] = 0; track.style.transform = 'translateX(0)';
   });
-  // after build, attach nav handlers (they exist as buttons with data-class/data-dir)
-  // update progress UI not necessary here but we keep offsets
 }
 
-// nav buttons for recent rows
+// nav for recent rows
 document.addEventListener('click', (ev)=>{
   const btn = ev.target.closest('.nav-btn');
   if(!btn) return;
-  const cls = btn.dataset.class;
-  const dir = btn.dataset.dir; // 'prev' or 'next'
+  const cls = btn.dataset.class; const dir = btn.dataset.dir;
   const track = document.querySelector('.recent-track[data-class="'+cls+'"]');
   if(!track) return;
-  const item = track.children[0];
-  if(!item) return;
+  const item = track.children[0]; if(!item) return;
   const containerWidth = track.parentElement.getBoundingClientRect().width;
-  const itemW = item.getBoundingClientRect().width + 12; // gap
+  const itemW = item.getBoundingClientRect().width + 12;
   const visible = Math.max(1, Math.floor(containerWidth / itemW));
   const maxOffset = Math.max(0, track.children.length - visible);
-  if(dir === 'next'){
-    offsets[cls] = Math.min(maxOffset, offsets[cls] + 1);
-  } else {
-    offsets[cls] = Math.max(0, offsets[cls] - 1);
-  }
+  if(dir === 'next') offsets[cls] = Math.min(maxOffset, offsets[cls] + 1);
+  else offsets[cls] = Math.max(0, offsets[cls] - 1);
   track.style.transform = `translateX(${-(offsets[cls] * itemW)}px)`;
 });
 
-// category buttons
+// categories click: change grid content (recent always visible)
 categories.addEventListener('click', (ev)=>{
-  const pill = ev.target.closest('.pill');
-  if(!pill) return;
+  const pill = ev.target.closest('.pill'); if(!pill) return;
   Array.from(categories.querySelectorAll('.pill')).forEach(p=>p.classList.remove('active'));
   pill.classList.add('active');
-  currentCategory = pill.dataset.cat;
-  updateUIVisibility();
-  if(currentCategory === 'recent'){
-    buildRecentRows();
-    // nice entrance animation for rows
-    const rows = document.querySelectorAll('.recent-row');
-    rows.forEach((r,i)=>{
-      r.style.opacity=0;
-      r.style.transform='translateY(12px)';
-      setTimeout(()=>{ r.style.transition='all .42s cubic-bezier(.2,.9,.2,1)'; r.style.opacity=1; r.style.transform='translateY(0)'; }, 80 + i*80);
-    });
+  const cat = pill.dataset.cat;
+  if(cat === 'recent'){
+    // grid also show recent ordering (descending by cls-num-subject)
+    renderPage(1, true);
   } else {
-    renderPage(1);
+    renderPage(1, false, cat);
   }
 });
 
-// grid rendering (for all / class-specific)
-function applyFilters(list){
+// apply filter & sorting for grid; if recentFlag true -> sort desc cls-num-name
+function applyFilters(list, recentFlag=false, cat=null){
   const k = qInput.value.trim().toLowerCase();
   let res = list.filter(f => f.name.toLowerCase().includes(k));
-  if(currentCategory === '10' || currentCategory === '11' || currentCategory === '12'){
-    res = res.filter(f => String(f.parsed.cls) === currentCategory)
-      .sort((a,b)=>{
-        if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
-        if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
-        return b.name.localeCompare(a.name);
-      });
-  } else if(currentCategory === 'recent'){
-    // (shouldn't come here; recent handled separately)
-    res.sort((a,b)=> a.name.localeCompare(b.name));
+  if(cat === '10' || cat === '11' || cat === '12'){
+    res = res.filter(f => String(f.parsed.cls) === cat);
+  }
+  if(recentFlag){
+    res.sort((a,b)=>{
+      if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
+      if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
+      return b.name.localeCompare(a.name);
+    });
   } else {
     res.sort((a,b)=> a.name.localeCompare(b.name));
   }
   return res;
 }
 
-function renderPage(page){
-  const filtered = applyFilters(all);
+function renderPage(page, recentFlag=false, cat=null){
+  const filtered = applyFilters(all, recentFlag, cat);
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   if(page < 1) page = 1;
   if(page > totalPages) page = totalPages;
-  currentPage = page;
-  const start = (page-1)*pageSize;
-  const end = start + pageSize;
+  currentPage = page; const start = (page-1)*pageSize; const end = start + pageSize;
   const pageItems = filtered.slice(start,end);
   renderGrid(pageItems);
   summary.innerText = `Hiển thị ${start+1}-${Math.min(end,total)} / ${total} file • Trang ${currentPage}/${totalPages}`;
@@ -452,14 +302,8 @@ function renderGrid(list){
   if(!list.length){grid.innerHTML="<div style='padding:20px;color:var(--muted)'>Không có file.</div>";return;}
   grid.innerHTML="";
   list.forEach(f=>{
-    const n=f.name;
-    const s=f.parsed;
-    const badge=s.cls;
-    const title = s.title;
-    const raw=f.download_url;
-
-    const el=document.createElement("div");
-    el.className="card";
+    const n=f.name; const s=f.parsed; const badge=s.cls; const title = s.title; const raw=f.download_url;
+    const el=document.createElement("div"); el.className="card";
     el.innerHTML=`
       <div class="top-badge">${badge}</div>
       <div class="card-top">
@@ -470,15 +314,9 @@ function renderGrid(list){
           <div style="color:var(--muted);font-size:12px;margin-top:6px">Kích thước: ${formatSize(f.size)}</div>
         </div>
       </div>
-
       <div class="card-actions">
-        <button class="action-btn view-btn" onclick="openPreview('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">
-          👁 Xem
-        </button>
-
-        <a class="action-btn download-btn" href="${raw}" download>
-          ⬇ Tải
-        </a>
+        <button class="action-btn view-btn" onclick="openView('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">👁 Xem</button>
+        <a class="action-btn download-btn" href="${raw}" download>⬇ Tải</a>
       </div>
     `;
     grid.appendChild(el);
@@ -491,78 +329,32 @@ function formatSize(bytes){
   return (bytes/(1024*1024)).toFixed(2) + " MB";
 }
 
-function openPreview(rawEnc, nameEnc){
+// Open view.html (original behavior) — not modal
+function openView(rawEnc, nameEnc){
   const raw = decodeURIComponent(rawEnc);
   const name = decodeURIComponent(nameEnc);
-  const ext = name.split(".").pop().toLowerCase();
-  const modalFrame = document.getElementById("modalFrame");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalDownload = document.getElementById("modalDownload");
-
-  modalTitle.innerText = name;
-  modalDownload.href = raw;
-  modalDownload.setAttribute("target","_blank");
-
-  const officeURL = `https://view.officeapps.live.com/op/embed.aspx?src=${raw}`;
-  if(/(doc|docx|ppt|pptx|xls|xlsx)$/i.test(ext)){
-    modalFrame.src = officeURL;
-  } else if(ext==="pdf"){
-    modalFrame.src = raw;
-  } else if(/png|jpe?g|gif|webp/.test(ext)){
-    modalFrame.srcdoc = `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#071023"><img src="${raw}" style="max-width:100%;max-height:100%;border-radius:8px"></div>`;
-    modalFrame.src = '';
-  } else {
-    modalFrame.src = raw;
-  }
-
-  document.getElementById("previewModal").style.display = "flex";
-}
-function closeModal(e){
-  if(e) e.stopPropagation();
-  const modal = document.getElementById("previewModal");
-  modal.style.display = "none";
-  const modalFrame = document.getElementById("modalFrame");
-  modalFrame.src = "";
-  modalFrame.srcdoc = "";
+  location.href = `view.html?file=${encodeURIComponent(raw)}&name=${encodeURIComponent(name)}`;
 }
 
-// pagination buttons (styled)
-document.getElementById("prevPage").onclick = ()=> renderPage(currentPage-1);
-document.getElementById("nextPage").onclick = ()=> renderPage(currentPage+1);
-
-// search input
-document.getElementById("q").oninput = ()=> {
-  if(currentCategory === 'recent'){
-    buildRecentRows();
-  } else {
-    renderPage(1);
-  }
+// prev/next page
+document.getElementById("prevPage").onclick = ()=> {
+  const pill = categories.querySelector('.pill.active');
+  const cat = pill ? pill.dataset.cat : 'all';
+  if(cat === 'recent') renderPage(currentPage-1, true);
+  else renderPage(currentPage-1, false, (cat==='all'?null:cat));
+};
+document.getElementById("nextPage").onclick = ()=> {
+  const pill = categories.querySelector('.pill.active');
+  const cat = pill ? pill.dataset.cat : 'all';
+  if(cat === 'recent') renderPage(currentPage+1, true);
+  else renderPage(currentPage+1, false, (cat==='all'?null:cat));
 };
 
-// category initial hook: ensure clicking a pill triggers behavior
-// categories handler above covers it
+// search updates both recent (rebuild) and grid
+document.getElementById("q").oninput = ()=> { buildRecentRows(); const pill = categories.querySelector('.pill.active'); const cat = pill ? pill.dataset.cat : 'all'; if(cat === 'recent') renderPage(1, true); else renderPage(1, false, (cat==='all'?null:cat)); };
 
-// in-app browser warning
-function isInAppBrowser() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-  return (
-    ua.includes("FBAN") || ua.includes("FBAV") ||
-    ua.includes("Instagram") ||
-    ua.includes("Line") ||
-    ua.includes("Zalo") || ua.includes("ZaloPC") ||
-    ua.includes("TikTok") ||
-    (ua.includes("wv") && ua.includes("Android"))
-  );
-}
-if (isInAppBrowser()) {
-  document.getElementById("inapp-warning").style.display = "block";
-}
-function openExternalBrowser() {
-  const url = window.location.href;
-  window.location.href =
-    `intent://${url.replace("https://","")}` +
-    "#Intent;scheme=https;package=com.android.chrome;end;";
-}
+document.getElementById("refresh").onclick = load;
+document.getElementById("new").onclick = load;
 
 load();
 </script>
