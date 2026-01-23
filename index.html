@@ -87,7 +87,8 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
     <button onclick="setFilter('12',this)">Lớp 12</button>
   </div>
 
-  <div class="section">
+  <!-- FILE GẦN ĐÂY (phần riêng, hiển thị khi không ở tab Gần đây) -->
+  <div class="section" id="recentSection">
     <h3>File gần đây</h3>
     <div id="recent" class="recent-row"></div>
   </div>
@@ -164,8 +165,10 @@ function card(f){
 function render(list){grid.innerHTML=list.map(card).join('');}
 
 function renderRecent(){
+  // Chỉ lấy 2 file mới nhất cho mỗi lớp → ghép thành 1 dòng ngang (File gần đây)
   const pick = g => all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
-  recent.innerHTML = [...pick('12'), ...pick('11'), ...pick('10')].map(card).join('');
+  const recentList = [...pick('12'), ...pick('11'), ...pick('10')];
+  recent.innerHTML = `<div class="recent-row">${recentList.map(card).join('')}</div>`;
 }
 
 function setFilter(t,b){
@@ -173,37 +176,45 @@ function setFilter(t,b){
   b.classList.add('active');
   current=t;
   document.getElementById('mainTitle').innerText = b.innerText;
+
+  // Khi chọn tab GẦN ĐÂY → ẩn section "File gần đây" ở trên cùng
+  document.getElementById('recentSection').style.display = (t==='recent') ? 'none' : 'block';
+
   apply();
 }
 
 function apply(){
   let list=[...all];
 
-  // 🔹 Khi bấm "Tất cả" → luôn sort (lớp)-(số)-(môn) giảm dần
+  // 🔹 TAB "TẤT CẢ" → sort theo (lớp)-(số)-(môn) giảm dần
   if(current==='all'){
-    list = list.sort(sortDesc);
+    render(list.sort(sortDesc));
+    return;
   }
 
-  // Gần đây
+  // 🔹 TAB "GẦN ĐÂY" → hiển thị 3 dòng (12 / 11 / 10) trong GRID
   if(current==='recent'){
-    list = list.sort(sortDesc).slice(0,6);
+    const grades = ['12','11','10'];
+    grid.innerHTML = grades.map(g=>{
+      const items = list.filter(f=>f.grade==g).sort(sortDesc);
+      if(!items.length) return '';
+      return `
+        <div class="section">
+          <h3 style="margin:0 0 8px;color:var(--muted)">Lớp ${g}</h3>
+          <div class="recent-row">
+            ${items.map(card).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+    return;
   }
 
-  // Lọc theo lớp
+  // 🔹 TAB THEO LỚP
   if(['10','11','12'].includes(current)){
-    list = list.filter(f=>f.grade==current).sort(sortDesc);
+    render(list.filter(f=>f.grade==current).sort(sortDesc));
+    return;
   }
-
-  // Tìm kiếm
-  const k = q.value.trim().toLowerCase();
-  if(k){
-    list = list.filter(f=>
-      (f.grade+'-'+f.num+'-'+f.subject+'-'+f.desc)
-        .toLowerCase().includes(k)
-    );
-  }
-
-  render(list);
 }
 
 q.oninput = apply;
