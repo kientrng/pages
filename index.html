@@ -49,7 +49,7 @@
 
   .controls{
     display:flex;gap:10px;margin-left:auto;
-    flex-wrap:wrap;
+    flex-wrap:wrap;align-items:center;
   }
   .search{
     padding:11px 14px;border-radius:10px;
@@ -82,6 +82,7 @@
     background:rgba(255,255,255,0.03);
     border:1px solid rgba(255,255,255,0.04);
     transition:0.2s;
+    position:relative;
   }
   .card:hover{
     transform:translateY(-6px);
@@ -125,9 +126,32 @@
     border-radius:6px;color:#071023;
   }
 
+  .controls-extended{
+    display:flex;gap:8px;align-items:center;margin-top:10px;
+    width:100%;
+  }
+  select, .small-btn {
+    padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);
+    background:rgba(255,255,255,0.04);color:white;
+  }
+
+  .meta-row{margin-top:12px;color:var(--muted);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between;}
+
+  /* modal */
+  .modal {
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.6);z-index:9999;padding:20px;
+  }
+  .modal .box {
+    width:100%;max-width:1100px;height:80vh;background:#071023;border-radius:12px;padding:12px;display:flex;flex-direction:column;
+  }
+  .modal iframe{flex:1;width:100%;border:0;border-radius:8px;background:white}
+  .modal .modal-top{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+
   @media (max-width:600px){
     .controls{margin-left:0;width:100%;justify-content:space-between;}
     .search{flex:1}
+    .controls-extended{flex-direction:column;align-items:stretch}
   }
 </style>
 </head>
@@ -169,7 +193,7 @@
       <div class="title">
         <h1>CHỐN HỌC TẬP</h1>
         <p>Code by KienDev — Xem & Tải tài liệu</p>
-        <p>Tìm kiếm mã đề theo lớp: (lớp)-(số thứ tự)-(môn)</lớp></p>
+        <p style="color:var(--muted);font-size:12px">Tìm kiếm mã đề theo lớp: (lớp)-(số thứ tự)-(môn)</p>
       </div>
     </div>
 
@@ -180,8 +204,46 @@
     </div>
   </div>
 
+  <div class="controls-extended">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <label style="color:var(--muted);font-size:13px">Lọc lớp:</label>
+      <select id="classFilter"><option value="">Tất cả</option></select>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <label style="color:var(--muted);font-size:13px">Sắp xếp:</label>
+      <select id="sortBy">
+        <option value="name-asc">Tên A→Z</option>
+        <option value="name-desc">Tên Z→A</option>
+        <option value="size-desc">Kích thước lớn→nhỏ</option>
+        <option value="size-asc">Kích thước nhỏ→lớn</option>
+      </select>
+    </div>
+
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <div id="summary" style="color:var(--muted)">Đang tải...</div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button id="prevPage" class="small-btn">« Trước</button>
+        <button id="nextPage" class="small-btn">Sau »</button>
+      </div>
+    </div>
+  </div>
+
   <div id="grid" class="grid"></div>
 
+</div>
+
+<!-- Modal preview -->
+<div id="previewModal" class="modal" onclick="closeModal(event)">
+  <div class="box" onclick="event.stopPropagation()">
+    <div class="modal-top">
+      <button onclick="closeModal()" class="small" style="background:rgba(255,255,255,0.03);color:white;border:0;border-radius:8px">✕ Đóng</button>
+      <div id="modalTitle" style="font-weight:700;color:white;margin-left:8px"></div>
+      <div style="flex:1"></div>
+      <a id="modalDownload" class="btn-primary" style="text-decoration:none;padding:10px 12px;border-radius:8px">⬇ Tải</a>
+    </div>
+    <iframe id="modalFrame" src=""></iframe>
+  </div>
 </div>
 
 <script>
@@ -203,24 +265,96 @@ function clean(n){
 }
 
 const grid=document.getElementById("grid");
+const classFilter = document.getElementById("classFilter");
+const sortBy = document.getElementById("sortBy");
+const qInput = document.getElementById("q");
+const summary = document.getElementById("summary");
+
 let all=[];
+
+// pagination
+let currentPage = 1;
+const pageSize = 12;
 
 async function load(){
   grid.innerHTML="Đang tải...";
-  const r=await fetch(api); 
-  const d=await r.json();
-  all=d.filter(f=>f.type==="file");
-  render(all);
+  currentPage = 1;
+  try{
+    const r=await fetch(api);
+    if(!r.ok) throw new Error("Không lấy được danh sách file");
+    const d=await r.json();
+    all=d.filter(f=>f.type==="file");
+    populateFilter();
+    renderPage(currentPage);
+  }catch(err){
+    grid.innerHTML="Lỗi tải dữ liệu.";
+    console.error(err);
+  }
+}
+
+function populateFilter(){
+  const badges = new Set();
+  all.forEach(f=>{
+    const s=clean(f.name);
+    const badge = s.split("-")[0] || "";
+    if(badge) badges.add(badge);
+  });
+  // clear existing options except "Tất cả"
+  classFilter.innerHTML = '<option value="">Tất cả</option>';
+  Array.from(badges).sort((a,b)=>a.localeCompare(b)).forEach(b=>{
+    const opt = document.createElement("option");
+    opt.value = b; opt.innerText=b;
+    classFilter.appendChild(opt);
+  });
+}
+
+function applyFilters(list){
+  const k = qInput.value.trim().toLowerCase();
+  let res = list.filter(f => f.name.toLowerCase().includes(k));
+  const cls = classFilter.value;
+  if(cls) res = res.filter(f => {
+    const badge = clean(f.name).split("-")[0] || "";
+    return badge === cls;
+  });
+
+  // sort
+  const s = sortBy.value;
+  if(s.startsWith("name")){
+    res.sort((a,b)=>{
+      const na = clean(a.name).toLowerCase();
+      const nb = clean(b.name).toLowerCase();
+      return s.endsWith("asc") ? na.localeCompare(nb) : nb.localeCompare(na);
+    });
+  } else if(s.startsWith("size")){
+    res.sort((a,b)=> s.endsWith("asc") ? a.size - b.size : b.size - a.size);
+  }
+
+  return res;
+}
+
+function renderPage(page){
+  const filtered = applyFilters(all);
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if(page < 1) page = 1;
+  if(page > totalPages) page = totalPages;
+  currentPage = page;
+  const start = (page-1)*pageSize;
+  const end = start + pageSize;
+  const pageItems = filtered.slice(start,end);
+  render(pageItems);
+
+  summary.innerText = `Hiển thị ${start+1}-${Math.min(end,total)} / ${total} file • Trang ${currentPage}/${totalPages}`;
 }
 
 function render(list){
-  if(!list.length){grid.innerHTML="Không có file.";return;}
+  if(!list.length){grid.innerHTML="<div style='padding:20px;color:var(--muted)'>Không có file.</div>";return;}
   grid.innerHTML="";
   list.forEach(f=>{
     const n=f.name;
     const s=clean(n);
     const badge=s.split("-")[0];
-    const title = s.split("-").pop();
+    const title = s.split("-").slice(1).join("-") || s.split("-").pop();
     const raw=f.download_url;
 
     const el=document.createElement("div");
@@ -232,11 +366,12 @@ function render(list){
         <div>
           <div class="name">${title}</div>
           <div class="sub">${n}</div>
+          <div style="color:var(--muted);font-size:12px;margin-top:6px">Kích thước: ${formatSize(f.size)}</div>
         </div>
       </div>
 
       <div class="card-actions">
-        <button class="action-btn view-btn" onclick="openView('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">
+        <button class="action-btn view-btn" onclick="openPreview('${encodeURIComponent(raw)}','${encodeURIComponent(n)}')">
           👁 Xem
         </button>
 
@@ -249,23 +384,61 @@ function render(list){
   });
 }
 
-function openView(raw,name){
-  location.href=`view.html?file=${raw}&name=${name}`;
+function formatSize(bytes){
+  if(bytes < 1024) return bytes + " B";
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + " KB";
+  return (bytes/(1024*1024)).toFixed(2) + " MB";
 }
 
-document.getElementById("q").oninput=e=>{
-  const k=e.target.value.toLowerCase();
-  render(all.filter(f=>f.name.toLowerCase().includes(k)));
-};
+function openPreview(rawEnc, nameEnc){
+  const raw = decodeURIComponent(rawEnc);
+  const name = decodeURIComponent(nameEnc);
+  // set modal iframe src according to extension (reuse logic from view.html)
+  const ext = name.split(".").pop().toLowerCase();
+  const modalFrame = document.getElementById("modalFrame");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDownload = document.getElementById("modalDownload");
 
-document.getElementById("refresh").onclick=load;
-document.getElementById("new").onclick=load;
+  modalTitle.innerText = name;
+  modalDownload.href = raw;
+  modalDownload.setAttribute("target","_blank");
 
-load();
+  const officeURL = `https://view.officeapps.live.com/op/embed.aspx?src=${raw}`;
+  if(/(doc|docx|ppt|pptx|xls|xlsx)$/i.test(ext)){
+    modalFrame.src = officeURL;
+  } else if(ext === "pdf"){
+    modalFrame.src = raw;
+  } else if(/png|jpe?g|gif|webp/.test(ext)){
+    // show image in data url iframe fallback
+    modalFrame.srcdoc = `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#071023"><img src="${raw}" style="max-width:100%;max-height:100%;border-radius:8px"></div>`;
+    modalFrame.src = '';
+  } else {
+    modalFrame.src = raw;
+  }
 
+  document.getElementById("previewModal").style.display = "flex";
+}
 
+function closeModal(e){
+  if(e) e.stopPropagation();
+  const modal = document.getElementById("previewModal");
+  modal.style.display = "none";
+  const modalFrame = document.getElementById("modalFrame");
+  modalFrame.src = "";
+  modalFrame.srcdoc = "";
+}
 
+document.getElementById("q").oninput = ()=> renderPage(1);
+classFilter.onchange = ()=> renderPage(1);
+sortBy.onchange = ()=> renderPage(1);
+document.getElementById("refresh").onclick = load;
+document.getElementById("new").onclick = load;
 
+// pagination buttons
+document.getElementById("prevPage").onclick = ()=> renderPage(currentPage-1);
+document.getElementById("nextPage").onclick = ()=> renderPage(currentPage+1);
+
+// in-app browser warning
 function isInAppBrowser() {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
   return (
@@ -277,26 +450,18 @@ function isInAppBrowser() {
     (ua.includes("wv") && ua.includes("Android"))
   );
 }
-
 if (isInAppBrowser()) {
   document.getElementById("inapp-warning").style.display = "block";
 }
-
-
 function openExternalBrowser() {
   const url = window.location.href;
   window.location.href =
     `intent://${url.replace("https://","")}` +
     "#Intent;scheme=https;package=com.android.chrome;end;";
 }
+
+load();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
