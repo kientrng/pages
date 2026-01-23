@@ -164,8 +164,24 @@ function card(f){
 function render(list){grid.innerHTML=list.map(card).join('');}
 
 function renderRecent(){
-  const pick = g => all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
-  recent.innerHTML = [...pick('12'), ...pick('11'), ...pick('10')].map(card).join('');
+  // nhóm theo lớp: 12, 11, 10
+  const grades = ['12','11','10'];
+  recent.innerHTML = grades.map(g=>{
+    const list = all
+      .filter(f=>f.grade==g)
+      .sort(sortDesc); // sort (lớp)-(số)-(môn) giảm dần
+
+    if(!list.length) return '';
+
+    return `
+      <div style="margin-bottom:14px">
+        <div style="margin:0 0 8px;font-size:13px;color:var(--muted)">Lớp ${g}</div>
+        <div class="recent-row">
+          ${list.map(card).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 function setFilter(t,b){
