@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== THEME (from both files) ===== */
 :root{
   --bg:#030516;
   --card:#081225;
@@ -20,32 +19,43 @@
 }
 *{box-sizing:border-box;font-family:Poppins}
 body{margin:0;background:var(--bg);color:#eaf2ff}
-.wrap{max-width:1200px;margin:auto;padding:18px}
+.wrap{max-width:1200px;margin:auto;padding:20px}
 
 /* ===== TOP ===== */
-.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.top{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
 .avatar{width:64px;height:64px;border-radius:14px}
 .title h1{margin:0;font-size:20px}
 .title p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.controls{margin-left:auto;display:flex;gap:6px;align-items:center}
-.search{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
+.controls{margin-left:auto}
+.search{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
 
 /* ===== FILTERS ===== */
-.filters{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
-.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer}
+.filters{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer;font-size:13px}
 .filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
 
+/* ===== SECTIONS ===== */
+.section{margin-top:22px}
+.section h3{margin:0 0 10px;font-size:14px;color:var(--muted)}
+
 /* ===== RECENT ===== */
-.recent-wrap{margin-top:22px}
-.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px}
+.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth}
+.recent-row .card{min-width:260px}
 .recent-row::-webkit-scrollbar{height:8px}
 .recent-row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
 
 /* ===== GRID ===== */
-.grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.card{padding:16px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+
+/* ===== CARD ===== */
+.card{padding:16px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
 .card:hover{transform:translateY(-6px)}
-.top-badge{position:absolute;top:12px;left:12px;padding:4px 8px;font-size:12px;font-weight:800;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
+.top-badge{position:absolute;top:14px;left:14px;padding:4px 8px;font-size:11px;font-weight:700;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
+
+.card-top{display:flex;gap:12px;align-items:center}
+.file-icon{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:26px}
+.name{font-weight:700;font-size:15px}
+.sub{font-size:12px;color:var(--muted);margin-top:4px}
 
 .actions{margin-top:14px;display:flex;gap:10px}
 .btn-view{flex:1;padding:10px;border-radius:10px;border:0;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white}
@@ -53,8 +63,8 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
 </style>
 </head>
 <body>
-
 <div class="wrap">
+
   <div class="top">
     <img src="avatar.png" class="avatar">
     <div class="title">
@@ -74,16 +84,19 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
     <button onclick="setFilter('12',this)">Lớp 12</button>
   </div>
 
-  <div class="recent-wrap">
+  <div class="section">
     <h3>File gần đây</h3>
     <div id="recent" class="recent-row"></div>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="section">
+    <h3 id="mainTitle">Tất cả</h3>
+    <div id="grid" class="grid"></div>
+  </div>
+
 </div>
 
 <script>
-/* ===== DATA ===== */
 const owner="kientrng", repo="pages", folder="files";
 const api=`https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
 
@@ -92,15 +105,26 @@ const recent=document.getElementById("recent");
 const q=document.getElementById("q");
 let all=[],current="all";
 
-const clean=n=>n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
-function parse(f){const p=clean(f.name).split("-");return{...f,grade:p[0],num:p[1],title:p.slice(2).join("-")||p[1]}}
+const clean=n=>n.replace(/\.(docx?|pdf)$/i,"");
+const icon=n=>/doc/.test(n)?"📘":"📕";
+
+function parse(f){
+  const p=clean(f.name).split("-");
+  return{...f,grade:p[0],num:p[1],title:p.slice(2).join("-")||"(không mô tả)"}
+}
+
 const sortDesc=(a,b)=>b.grade-a.grade||b.num-a.num;
 
 function card(f){return `
 <div class="card">
   <div class="top-badge">${f.grade}</div>
-  <b>${f.grade}-${f.num}-${f.title}</b>
-  <div style="color:var(--muted);margin-top:6px">${f.name}</div>
+  <div class="card-top">
+    <div class="file-icon">${icon(f.name)}</div>
+    <div>
+      <div class="name">${f.grade}-${f.num}-${f.title}</div>
+      <div class="sub">${f.title}</div>
+    </div>
+  </div>
   <div class="actions">
     <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
     <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
@@ -108,6 +132,7 @@ function card(f){return `
 </div>`}
 
 function render(list){grid.innerHTML=list.map(card).join("")}
+
 function renderRecent(){
   const pick=g=>all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
   recent.innerHTML=[...pick(12),...pick(11),...pick(10)].map(card).join("")
@@ -116,7 +141,9 @@ function renderRecent(){
 function setFilter(t,b){
   document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
-  current=t;apply();
+  current=t;
+  document.getElementById('mainTitle').innerText=b.innerText;
+  apply();
 }
 
 function apply(){
@@ -134,7 +161,8 @@ function openView(u,n){location.href=`view.html?file=${encodeURIComponent(u)}&na
 
 fetch(api).then(r=>r.json()).then(d=>{
   all=d.filter(x=>x.type==='file').map(parse);
-  renderRecent();apply();
+  renderRecent();
+  apply();
 });
 </script>
 </body>
