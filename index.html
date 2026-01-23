@@ -5,120 +5,135 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Chốn Học Tập — KienDev_</title>
 <link rel="icon" href="avatar.png">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#030516;
-  --card:#081225;
-  --muted:#95a5c7;
+  --bg:#05060b;            /* slightly deeper */
+  --panel:#071026;
+  --card:#0d1320;          /* card background */
+  --muted:#99a6c8;
   --accent1:#7C3AED;
   --accent2:#06B6D4;
+  --accent-boost: linear-gradient(90deg,var(--accent1),var(--accent2));
+  --soft-glow: rgba(124,58,237,0.12);
+  --glass: rgba(255,255,255,0.03);
   --pink1:#ffb86b;
   --pink2:#ff6bcb;
-  --grade10-start: #FF9966; /* orange */
-  --grade10-end: #FF5E7E;
-  --grade11-start: #7C3AED; /* purple */
-  --grade11-end: #06B6D4;
-  --grade12-start: #06B6D4; /* teal */
-  --grade12-end: #34D1FF;
-  --file-note-start: #6B7280;
-  --file-note-end: #111827;
 }
-*{box-sizing:border-box;font-family:Poppins}
-body{margin:0;background:var(--bg);color:#eaf2ff}
-.wrap{max-width:1200px;margin:auto;padding:20px}
+*{box-sizing:border-box}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#040410,var(--bg));
+  color:#e7eefc;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.wrap{max-width:1200px;margin:28px auto;padding:20px}
 
-/* ===== TOP ===== */
-.top{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
-.avatar{width:64px;height:64px;border-radius:14px}
-.title h1{margin:0;font-size:20px}
-.title p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.controls{margin-left:auto}
-.search{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
+/* ===== Header ===== */
+.header{
+  display:flex;align-items:center;gap:18px;padding:22px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 30px rgba(2,6,23,0.6) inset;
+}
+.logo{
+  width:76px;height:76px;border-radius:18px;background:linear-gradient(180deg,#fff,#eee);display:flex;align-items:center;justify-content:center;padding:6px;flex:0 0 76px
+}
+.title h1{margin:0;font-size:20px;letter-spacing:1px;font-weight:700}
+.title p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.search-wrap{margin-left:auto;display:flex;align-items:center}
+.search{width:360px;padding:12px 16px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:var(--muted);outline:none}
+.search:focus{box-shadow:0 6px 30px rgba(6,21,55,0.6);border-color:rgba(124,58,237,.6);}
 
-/* ===== FILTERS ===== */
-.filters{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
-.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);color:white;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:8px}
-.filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
-.filters .btn-icon{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
-.filters button.active .btn-icon{box-shadow:0 4px 18px rgba(0,0,0,0.25)}
-/* icon colors for filter buttons */
-.filters .icon-all{background:linear-gradient(90deg,var(--accent1),var(--accent2))}
-.filters .icon-recent{background:linear-gradient(90deg,#2dd4bf,#7c3aed)}
-.filters .icon-10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
-.filters .icon-11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
-.filters .icon-12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
+/* ===== Filters ===== */
+.filters{margin-top:18px;display:flex;gap:10px;align-items:center}
+.pill{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:600;color:var(--muted);cursor:pointer;transition:transform .12s,box-shadow .12s
+}
+.pill:hover{transform:translateY(-3px)}
+.pill.active{background:var(--accent-boost);color:white;box-shadow:0 8px 30px rgba(124,58,237,0.18)}
+.pill .icon{
+  width:30px;height:30px;border-radius:8px;display:inline-grid;place-items:center;font-weight:700;color:white;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,0.4)
+}
+.pill .icon.all{background:linear-gradient(90deg,var(--accent1),#4cc9f0)}
+.pill .icon.recent{background:linear-gradient(90deg,#2dd4bf,#7c3aed)}
+.pill .icon.g10{background:linear-gradient(90deg,var(--grade10-start, #FF9966),var(--grade10-end, #FF5E7E))}
+.pill .icon.g11{background:linear-gradient(90deg,var(--grade11-start, #7C3AED),var(--grade11-end, #06B6D4))}
+.pill .icon.g12{background:linear-gradient(90deg,var(--grade12-start, #06B6D4),var(--grade12-end, #34D1FF))}
 
-/* ===== SECTIONS ===== */
-.section{margin-top:22px}
-.section h3{margin:0 0 10px;font-size:14px;color:var(--muted)}
+/* section titles */
+.section-title{margin:24px 0 12px;color:var(--muted);font-weight:600}
 
-/* ===== RECENT ===== */
-.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth}
-.recent-row .card{min-width:260px}
+/* ===== Recent (top small) ===== */
+.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px}
+.recent-row .card{min-width:300px}
 .recent-row::-webkit-scrollbar{height:8px}
-.recent-row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
+.recent-row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:12px}
 
-/* ===== GRID ===== */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+/* ===== Grid ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px}
 
-/* ===== CARD ===== */
-.card{padding:16px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
-.card:hover{transform:translateY(-6px)}
-.top-badge{position:absolute;top:14px;left:14px;padding:4px 8px;font-size:11px;font-weight:700;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
+/* ===== Card ===== */
+.card{
+  padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.015),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(2,6,23,0.6);
+}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(2,6,23,0.7)}
+.top-badge{position:absolute;top:18px;left:18px;padding:6px 10px;font-size:12px;font-weight:800;border-radius:999px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
+.card-top{display:flex;gap:14px;align-items:center}
+.file-icon{width:62px;height:62px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#071023}
+.file-icon.grade-10{background:linear-gradient(90deg,#FF9966,#FF5E7E);color:white}
+.file-icon.grade-11{background:linear-gradient(90deg,#8b5cf6,#06b6d4);color:white}
+.file-icon.grade-12{background:linear-gradient(90deg,#06b6d4,#34d1ff);color:white}
+.file-icon.other{background:linear-gradient(90deg,#6b7280,#111827);color:white}
+.name{font-weight:700;font-size:16px}
+.sub{font-size:13px;color:var(--muted);margin-top:6px}
 
-.card-top{display:flex;gap:12px;align-items:center}
-.file-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff}
-.file-icon.grade-10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
-.file-icon.grade-11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
-.file-icon.grade-12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
-.file-icon.other{background:linear-gradient(90deg,var(--file-note-start),var(--file-note-end));color:#fff}
+.actions{margin-top:14px;display:flex;gap:12px}
+.btn-view{flex:1;padding:12px;border-radius:12px;border:0;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#4cc9f0,#7c3aed);color:white;box-shadow:0 8px 20px rgba(124,58,237,0.12)}
+.btn-view:hover{transform:translateY(-2px)}
+.btn-dl{flex:1;padding:12px;border-radius:12px;font-weight:700;text-decoration:none;background:linear-gradient(90deg,#ffb86b,#ff6bcb);color:#071023;display:flex;align-items:center;justify-content:center}
 
-.name{font-weight:700;font-size:15px}
-.sub{font-size:12px;color:var(--muted);margin-top:4px}
+/* utility */
+.row{display:flex;gap:16px;align-items:center}
 
-.actions{margin-top:14px;display:flex;gap:10px}
-.btn-view{flex:1;padding:10px;border-radius:10px;border:0;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white}
-.btn-dl{flex:1;padding:10px;border-radius:10px;font-weight:700;text-decoration:none;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;display:flex;align-items:center;justify-content:center}
-
-/* small helper: ellipsis for long descriptions */
-.desc-ellipsis{display:block;max-height:2.6em;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:900px){
+  .search{width:220px}
+  .logo{width:64px;height:64px}
+  .file-icon{width:48px;height:48px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <div class="top">
-    <img src="avatar.png" class="avatar">
+  <header class="header">
+    <div class="logo"><img src="avatar.png" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:10px"></div>
     <div class="title">
       <h1>CHỐN HỌC TẬP</h1>
       <p>Code by KienDev — Xem & Tải tài liệu</p>
     </div>
-    <div class="controls">
+    <div class="search-wrap">
       <input id="q" class="search" placeholder="Tìm mã & tên đề...">
     </div>
+  </header>
+
+  <div class="row filters" style="margin-top:18px">
+    <div class="pill active" onclick="setFilter('all',this)"><span class="icon all">🏠</span> Tất cả</div>
+    <div class="pill" onclick="setFilter('recent',this)"><span class="icon recent">🕘</span> Gần đây</div>
+    <div class="pill" onclick="setFilter('10',this)"><span class="icon g10">10</span> Lớp 10</div>
+    <div class="pill" onclick="setFilter('11',this)"><span class="icon g11">11</span> Lớp 11</div>
+    <div class="pill" onclick="setFilter('12',this)"><span class="icon g12">12</span> Lớp 12</div>
   </div>
 
-  <div class="filters">
-    <button class="active" onclick="setFilter('all',this)"><span class="btn-icon icon-all">🏠</span> Tất cả</button>
-    <button onclick="setFilter('recent',this)"><span class="btn-icon icon-recent">🕘</span> Gần đây</button>
-    <button onclick="setFilter('10',this)"><span class="btn-icon icon-10">10</span> Lớp 10</button>
-    <button onclick="setFilter('11',this)"><span class="btn-icon icon-11">11</span> Lớp 11</button>
-    <button onclick="setFilter('12',this)"><span class="btn-icon icon-12">12</span> Lớp 12</button>
-  </div>
-
-  <!-- FILE GẦN ĐÂY (phần riêng, hiển thị khi không ở tab Gần đây) -->
   <div class="section" id="recentSection">
-    <h3>File gần đây</h3>
+    <div class="section-title">File gần đây</div>
     <div id="recent" class="recent-row"></div>
   </div>
 
   <div class="section">
-    <h3 id="mainTitle">Tất cả</h3>
+    <div class="section-title" id="mainTitle">Tất cả</div>
     <div id="grid" class="grid"></div>
   </div>
-
 </div>
 
 <script>
@@ -130,18 +145,9 @@ const recent=document.getElementById("recent");
 const q=document.getElementById("q");
 let all=[],current="all";
 
-// remove extension and preserve unicode
 const clean = n => n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
-// choose icon by extension
 const icon = n => /\.pdf$/i.test(n)? '📕' : /\.doc/i.test(n)? '📘' : '🗒️';
 
-/*
-  Parse filename format: (lớp)-(số)-(môn)-(mô tả).ext
-  - grade: p[0]
-  - num: p[1]
-  - subject: p[2]
-  - desc: p[3..].join('-') (optional)
-*/
 function parse(f){
   const base = clean(f.name);
   const p = base.split('-');
@@ -152,15 +158,11 @@ function parse(f){
   return {...f, grade, num, subject, desc };
 }
 
-// sort theo (lớp)-(số)-(môn) giảm dần
 const sortDesc = (a,b)=>{
-  // lớp: 12 -> 11 -> 10
   const g = Number(b.grade) - Number(a.grade);
   if(g!==0) return g;
-  // số: lớn -> nhỏ
   const n = Number(b.num) - Number(a.num);
   if(n!==0) return n;
-  // môn: so sánh chữ (Z -> A)
   return b.subject.localeCompare(a.subject,'vi',{sensitivity:'base'});
 };
 
@@ -175,7 +177,7 @@ function card(f){
   const topLine = `${f.grade}-${f.num}-${f.subject}`.replace(/^-|-$|--/g,'');
   const cls = fileIconClass(f.grade);
   return `
-<div class="card">
+<div class="card" style="position:relative">
   <div class="top-badge">${f.grade}</div>
   <div class="card-top">
     <div class="file-icon ${cls}">${icon(f.name)}</div>
@@ -194,34 +196,26 @@ function card(f){
 function render(list){grid.innerHTML=list.map(card).join('');}
 
 function renderRecent(){
-  // Chỉ lấy 2 file mới nhất cho mỗi lớp → ghép thành 1 dòng ngang (File gần đây)
   const pick = g => all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
   const recentList = [...pick('12'), ...pick('11'), ...pick('10')];
   recent.innerHTML = `<div class="recent-row">${recentList.map(card).join('')}</div>`;
 }
 
 function setFilter(t,b){
-  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  if(b) b.classList.add('active');
   current=t;
-  document.getElementById('mainTitle').innerText = b.innerText;
-
-  // Khi chọn tab GẦN ĐÂY → ẩn section "File gần đây" ở trên cùng
+  document.getElementById('mainTitle').innerText = b?b.innerText:'Tất cả';
   document.getElementById('recentSection').style.display = (t==='recent') ? 'none' : 'block';
-
   apply();
 }
 
 function apply(){
   let list=[...all];
-
-  // 🔹 TAB "TẤT CẢ" → sort theo (lớp)-(số)-(môn) giảm dần
   if(current==='all'){
     render(list.sort(sortDesc));
     return;
   }
-
-  // 🔹 TAB "GẦN ĐÂY" → hiển thị 3 dòng (12 / 11 / 10) trong GRID
   if(current==='recent'){
     const grades = ['12','11','10'];
     grid.innerHTML = grades.map(g=>{
@@ -238,8 +232,6 @@ function apply(){
     }).join('');
     return;
   }
-
-  // 🔹 TAB THEO LỚP
   if(['10','11','12'].includes(current)){
     render(list.filter(f=>f.grade==current).sort(sortDesc));
     return;
@@ -249,11 +241,7 @@ function apply(){
 q.oninput = apply;
 
 function openView(u,n){ location.href = `view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}` }
-
-// simple html escape to avoid accidental html injection from filenames
-function escapeHtml(s){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 fetch(api).then(r=>r.json()).then(d=>{
   all = d.filter(x=>x.type==='file').map(parse);
@@ -263,5 +251,3 @@ fetch(api).then(r=>r.json()).then(d=>{
 </script>
 </body>
 </html>
-
-
