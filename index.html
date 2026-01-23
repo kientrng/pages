@@ -1,266 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<title>Pages</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chốn Học Tập — KienDev_</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0b1220;
-  --card:#111a2e;
-  --text:#e8ecf3;
-  --muted:#9aa4bf;
-  --pink1:#ff7ad9;
-  --pink2:#8a7dff;
+  --bg:#030516;
+  --muted:#95a5c7;
+  --accent1:#7C3AED;
+  --accent2:#06B6D4;
+  --pink1:#ffb86b;
+  --pink2:#ff6bcb;
+  --card:#081225;
+}
+*{box-sizing:border-box;font-family:Poppins}
+body{margin:0;background:var(--bg);color:#eaf2ff}
+.wrap{max-width:1200px;margin:auto;padding:18px}
+
+/* ===== Header ===== */
+.top{
+  display:flex;gap:14px;align-items:center;
+  padding:16px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+  border:1px solid rgba(255,255,255,.04)
+}
+.avatar{width:64px;height:64px;border-radius:14px}
+.title h1{margin:0;font-size:20px}
+.title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.controls{margin-left:auto}
+.search{
+  padding:10px 14px;border-radius:10px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  color:white
 }
 
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system;
-  background:var(--bg);
-  color:var(--text);
+/* ===== Categories ===== */
+.section-row{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+  padding:8px 14px;border-radius:999px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.04);
+  color:var(--muted);font-weight:700;
+  cursor:pointer;transition:.18s
+}
+.pill.active{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;transform:translateY(-2px)
 }
 
-.container{max-width:1200px;margin:auto;padding:20px}
-
-/* ===== SEARCH ===== */
-.search-box{
-  display:flex;
-  gap:12px;
-  margin-bottom:18px;
+/* ===== Recent ===== */
+.recent-wrap{margin-top:22px}
+.recent-head{display:flex;justify-content:space-between;align-items:center}
+.recent-track-wrap{overflow:hidden;margin-top:12px}
+.recent-track{
+  display:flex;gap:14px;
+  transition:transform .45s cubic-bezier(.22,.9,.3,1)
 }
-.search-box input{
-  flex:1;
-  padding:14px 16px;
-  border-radius:12px;
-  border:none;
-  outline:none;
-  background:#0f1830;
-  color:var(--text);
-  font-size:15px;
-}
-.search-box button{
-  padding:14px 18px;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(90deg,var(--pink1),var(--pink2));
-  color:#071023;
-  font-weight:700;
-}
-
-/* ===== TABS ===== */
-.tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-.tab{
-  padding:8px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  font-size:14px;
-  background:#0f1830;
-  color:var(--muted);
-}
-.tab.active{
-  background:linear-gradient(90deg,var(--pink1),var(--pink2));
-  color:#071023;
-  font-weight:700;
-}
-
-/* ===== RECENT ===== */
-.recent{
-  margin-bottom:26px;
-}
-.recent h3{margin:0 0 12px}
-.recent-row{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding-bottom:6px;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px;
-}
-
-/* ===== CARD ===== */
-.card{
+.recent-card{
+  min-width:280px;
   background:var(--card);
-  border-radius:16px;
-  padding:14px;
-  position:relative;
-  transition:.25s;
+  padding:14px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:0 8px 30px rgba(0,0,0,.45)
 }
-.card:hover{transform:translateY(-4px)}
 
+/* ===== Arrows ===== */
+.arrow-btn{
+  width:44px;height:38px;border-radius:10px;
+  border:0;cursor:pointer;
+  background:linear-gradient(180deg,#111638,#071025);
+  color:white;font-weight:800;
+  transition:.15s
+}
+.arrow-btn:hover{transform:translateY(-3px)}
+
+/* ===== Grid ===== */
+.grid{
+  margin-top:26px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px
+}
+.card{
+  position:relative;
+  padding:16px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+  border:1px solid rgba(255,255,255,.05);
+  transition:.18s
+}
+.card:hover{transform:translateY(-6px)}
+.card:hover .top-badge{opacity:1;transform:scale(1)}
+
+/* ===== Badge (FIXED) ===== */
 .top-badge{
-  position:absolute;
-  top:10px;
-  left:10px;
+  position:absolute;left:12px;top:12px;
   padding:4px 8px;
-  font-size:12px;
-  font-weight:800;
+  font-size:12px;font-weight:800;
   border-radius:8px;
   background:linear-gradient(90deg,var(--pink1),var(--pink2));
   color:#071023;
   opacity:0;
-  transition:.2s;
-}
-.card:hover .top-badge{opacity:1}
-
-.file-icon{
-  width:42px;
-  height:42px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  background:#0f1830;
-  margin-bottom:10px;
+  transform:scale(.85);
+  transition:.18s;
+  pointer-events:none
 }
 
-.title{font-weight:700}
-.sub{font-size:13px;color:var(--muted);margin-top:4px}
-
-.actions{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
+/* ===== Buttons ===== */
+.actions{display:flex;gap:10px;margin-top:14px}
+.btn-view{
+  flex:1;padding:10px;border-radius:10px;
+  border:0;cursor:pointer;font-weight:700;
+  background:linear-gradient(90deg,#0ea5e9,#7c3aed);
+  color:white
 }
-.actions a{
-  flex:1;
-  text-align:center;
-  padding:8px 0;
-  border-radius:10px;
-  font-size:13px;
-  text-decoration:none;
-  background:#0f1830;
-  color:var(--text);
+.btn-dl{
+  flex:1;padding:10px;border-radius:10px;
+  background:linear-gradient(90deg,var(--pink1),var(--pink2));
+  color:#071023;font-weight:700;
+  text-decoration:none;display:flex;align-items:center;justify-content:center
 }
 </style>
 </head>
-
 <body>
-<div class="container">
 
-  <!-- SEARCH -->
-  <div class="search-box">
-    <input id="search" placeholder="Tìm theo lớp, số, môn, tên file…" />
-    <button onclick="doSearch()">Tìm</button>
+<div class="wrap">
+
+  <div class="top">
+    <img src="avatar.png" class="avatar">
+    <div class="title">
+      <h1>CHỐN HỌC TẬP</h1>
+      <p>Code by KienDev — Xem & Tải tài liệu</p>
+    </div>
+    <div class="controls">
+      <input id="q" class="search" placeholder="Tìm mã đề (tùy chọn)">
+    </div>
   </div>
 
-  <!-- TABS -->
-  <div class="tabs" id="tabs">
-    <div class="tab" data-tab="all">Tất cả</div>
-    <div class="tab" data-tab="new">Mới nhất</div>
-    <div class="tab" data-tab="10">Lớp 10</div>
-    <div class="tab" data-tab="11">Lớp 11</div>
-    <div class="tab" data-tab="12">Lớp 12</div>
+  <!-- Categories -->
+  <div class="section-row" id="categories">
+    <div class="pill active" data-cat="all">Tất cả</div>
+    <div class="pill" data-cat="recent">Mới nhất</div>
+    <div class="pill" data-cat="10">Lớp 10</div>
+    <div class="pill" data-cat="11">Lớp 11</div>
+    <div class="pill" data-cat="12">Lớp 12</div>
   </div>
 
-  <!-- RECENT -->
-  <div class="recent">
-    <h3>File gần đây</h3>
-    <div class="recent-row" id="recentRow"></div>
+  <!-- Recent -->
+  <div class="recent-wrap">
+    <div class="recent-head">
+      <div><b>File gần đây</b><br><span style="color:var(--muted);font-size:13px">6 file mới up — 2 file / lớp</span></div>
+      <div>
+        <button class="arrow-btn" id="prev">◀</button>
+        <button class="arrow-btn" id="next">▶</button>
+      </div>
+    </div>
+    <div class="recent-track-wrap">
+      <div id="recentTrack" class="recent-track"></div>
+    </div>
   </div>
 
-  <!-- GRID -->
-  <div class="grid" id="grid"></div>
+  <!-- Grid -->
+  <div id="grid" class="grid"></div>
 
 </div>
 
 <script>
-let files = []; // mock data
-let currentTab = null;
+const owner="kientrng",repo="pages",folder="files";
+const api=`https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
 
-/* ===== MOCK DATA (sau này thay bằng GitHub API) ===== */
-files = [
-  {name:"12-3-Toán.docx",url:"#"},
-  {name:"12-2-Hóa.docx",url:"#"},
-  {name:"11-4-Lí.docx",url:"#"},
-  {name:"11-3-Toán.docx",url:"#"},
-  {name:"10-2-Hóa.docx",url:"#"},
-  {name:"10-1-Toán.docx",url:"#"},
-];
+const grid=document.getElementById("grid");
+const recentTrack=document.getElementById("recentTrack");
+const categories=document.getElementById("categories");
+const q=document.getElementById("q");
 
-/* ===== ICON ===== */
-function getIcon(name){
-  name=name.toLowerCase();
-  if(name.includes("toán")) return "🧮";
-  if(name.includes("lí")||name.includes("lý")) return "⚡";
-  if(name.includes("hóa")) return "🧪";
-  return "📘";
+let all=[],pageCat="all",offset=0;
+
+/* helpers */
+const clean=n=>n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
+function parse(n){
+  const p=clean(n).split("-");
+  return{cls:p[0],num:p[1],title:p.slice(2).join("-")||p[1]}
+}
+function sortDesc(a,b){
+  return b.parsed.cls-a.parsed.cls||b.parsed.num-a.parsed.num
 }
 
-/* ===== CARD ===== */
-function createCard(f){
-  const cls=f.name.split("-")[0];
-  return `
-  <div class="card">
-    <span class="top-badge">${cls}</span>
-    <div class="file-icon">${getIcon(f.name)}</div>
-    <div class="title">${f.name.replace(".docx","")}</div>
-    <div class="sub">${f.name}</div>
-    <div class="actions">
-      <a href="view.html?file=${encodeURIComponent(f.name)}">👁 Xem</a>
-      <a href="${f.url}">⬇ Tải</a>
-    </div>
-  </div>`;
-}
-
-/* ===== RECENT ===== */
-function renderRecent(){
-  const row=document.getElementById("recentRow");
-  row.innerHTML="";
-  const sorted=[...files].sort((a,b)=>b.name.localeCompare(a.name));
-  const pick=[];
-  ["10","11","12"].forEach(c=>{
-    pick.push(...sorted.filter(f=>f.name.startsWith(c)).slice(0,2));
-  });
-  pick.forEach(f=>row.innerHTML+=createCard(f));
-}
-
-/* ===== GRID ===== */
-function renderGrid(list){
-  const g=document.getElementById("grid");
-  g.innerHTML="";
-  list.forEach(f=>g.innerHTML+=createCard(f));
-}
-
-/* ===== SEARCH ===== */
-function doSearch(){
-  const q=document.getElementById("search").value.toLowerCase();
-  if(!q){document.getElementById("grid").innerHTML="";return;}
-  renderGrid(files.filter(f=>f.name.toLowerCase().includes(q)));
-}
-
-/* ===== TABS ===== */
-document.querySelectorAll(".tab").forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    t.classList.add("active");
-    currentTab=t.dataset.tab;
-
-    if(currentTab==="new"){
-      renderGrid([...files].sort((a,b)=>b.name.localeCompare(a.name)));
-    }else if(currentTab==="all"){
-      renderGrid(files);
-    }else{
-      renderGrid(files.filter(f=>f.name.startsWith(currentTab)));
-    }
-  };
+/* load */
+fetch(api).then(r=>r.json()).then(d=>{
+  all=d.filter(f=>f.type==="file").map(f=>({...f,parsed:parse(f.name)}));
+  buildRecent();
+  renderGrid(); // ✅ FIX: render ngay khi load
 });
 
-/* INIT */
-renderRecent();
+/* recent */
+function buildRecent(){
+  const pick=cls=>all.filter(f=>f.parsed.cls==cls).sort(sortDesc).slice(0,2);
+  const recent=[...pick(12),...pick(11),...pick(10)];
+  recentTrack.innerHTML="";
+  recent.forEach(f=>{
+    recentTrack.innerHTML+=`
+      <div class="recent-card">
+        <b>${f.parsed.cls}-${f.parsed.num}-${f.parsed.title}</b>
+        <div style="color:var(--muted);margin-top:6px">${f.name}</div>
+        <div class="actions">
+          <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
+          <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
+        </div>
+      </div>`;
+  });
+}
+
+/* grid */
+function renderGrid(){
+  let list=[...all];
+  if(pageCat==="recent") list.sort(sortDesc);
+  if(["10","11","12"].includes(pageCat)) list=list.filter(f=>f.parsed.cls==pageCat);
+  const k=q.value.toLowerCase();
+  if(k) list=list.filter(f=>f.name.toLowerCase().includes(k));
+
+  grid.innerHTML="";
+  list.forEach(f=>{
+    grid.innerHTML+=`
+      <div class="card">
+        <div class="top-badge">${f.parsed.cls}</div>
+        <b>${f.parsed.cls}-${f.parsed.num}-${f.parsed.title}</b>
+        <div style="color:var(--muted);margin-top:6px">${f.name}</div>
+        <div class="actions">
+          <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
+          <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
+        </div>
+      </div>`;
+  });
+}
+
+/* events */
+categories.onclick=e=>{
+  const p=e.target.closest(".pill");
+  if(!p)return;
+  categories.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
+  p.classList.add("active");
+  pageCat=p.dataset.cat;
+  renderGrid();
+};
+q.oninput=()=>renderGrid();
+document.getElementById("prev").onclick=()=>recentTrack.style.transform="translateX(0)";
+document.getElementById("next").onclick=()=>recentTrack.style.transform="translateX(-300px)";
+
+function openView(u,n){
+  location.href=`view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}`
+}
 </script>
 </body>
 </html>
