@@ -6,6 +6,9 @@
 <title>Chốn Học Tập — KienDev_</title>
 <link rel="icon" href="avatar.png">
 
+<!-- Font Awesome (icons online) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
 :root{
   --bg:#030516;
@@ -18,14 +21,12 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:#eaf2ff;
+  margin:0;background:var(--bg);color:#eaf2ff;
   font-family:"Palatino Linotype","Book Antiqua",Palatino,serif;
 }
 .wrap{max-width:1200px;margin:auto;padding:20px}
 
-/* ===== TOP ===== */
+/* TOP */
 .top{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
 .avatar{width:64px;height:64px;border-radius:14px}
 .title h1{margin:0;font-size:22px;letter-spacing:.5px}
@@ -33,46 +34,32 @@ body{
 .controls{margin-left:auto}
 .search{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
 
-/* ===== FILTERS ===== */
+/* FILTERS */
 .filters{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
 .filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer;font-size:13px}
 .filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
 
-/* ===== SECTIONS ===== */
+/* SECTIONS */
 .section{margin-top:22px}
 .section h3{margin:0 0 10px;font-size:15px;color:var(--muted)}
 
-/* ===== ROW ===== */
+/* ROW (for Recent tab rows) */
 .row{display:flex;gap:16px;overflow-x:auto;padding-bottom:10px}
 .row::-webkit-scrollbar{height:8px}
 .row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
 
-/* ===== GRID ===== */
+/* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 
-/* ===== CARD ===== */
+/* CARD */
 .card{padding:16px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
 .card:hover{transform:translateY(-6px)}
 
-.top-badge{
-  position:absolute;top:12px;left:12px;
-  padding:4px 8px;font-size:11px;font-weight:700;
-  border-radius:8px;
-  background:linear-gradient(90deg,var(--pink1),var(--pink2));
-  color:#071023;
-  opacity:0;
-  transform:translateY(-6px);
-  transition:.2s
-}
+.top-badge{position:absolute;top:12px;left:12px;padding:4px 8px;font-size:11px;font-weight:700;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;opacity:0;transform:translateY(-6px);transition:.2s}
 .card:hover .top-badge{opacity:1;transform:none}
 
 .card-top{display:flex;gap:12px;align-items:center}
-.file-icon{
-  width:52px;height:52px;border-radius:12px;
-  background:rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center
-}
-.file-icon svg{width:32px;height:32px}
+.file-icon{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:26px}
 
 .name{font-weight:700;font-size:15px}
 .sub{font-size:12px;color:var(--muted);margin-top:4px}
@@ -121,47 +108,42 @@ const grid=document.getElementById("grid");
 const q=document.getElementById("q");
 let all=[],current="all";
 
-const clean = n => n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
-const extOf = n => (n.match(/\.([a-z0-9]+)$/i)||[])[1]||"";
+const clean=n=>n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
 const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
 function parse(f){
-  const base = clean(f.name);
-  const p = base.split('-');
+  const base=clean(f.name);
+  const p=base.split('-');
   return {...f, grade:p[0]||'', num:p[1]||'', subject:p[2]||'', desc:p.slice(3).join('-')||'(không mô tả)'};
 }
 
 const sortDesc=(a,b)=>Number(b.grade)-Number(a.grade)||Number(b.num)-Number(a.num)||b.subject.localeCompare(a.subject,'vi');
 
-const icons={
-  toan:`<svg viewBox='0 0 24 24'><path fill='#3b82f6' d='M4 5h6v2H4zm0 4h6v2H4zm8-4h2v8h-2z'/></svg>`,
-  ly:`<svg viewBox='0 0 24 24'><circle cx='12' cy='6' r='2' fill='#8b5cf6'/><ellipse cx='12' cy='12' rx='7' ry='3' fill='none' stroke='#8b5cf6' stroke-width='1.5'/></svg>`,
-  hoa:`<svg viewBox='0 0 24 24'><path fill='#06b6d4' d='M6 3h12l-4 8v6H10v-6z'/></svg>`,
-  def:`<svg viewBox='0 0 24 24'><rect x='6' y='3' width='12' height='18' rx='2' fill='#94a3b8'/></svg>`
-};
-
-function subjectIcon(s){
-  s=normalize(s);
-  if(s.includes('toan')) return icons.toan;
-  if(s.includes('ly')||s.includes('li')) return icons.ly;
-  if(s.includes('hoa')) return icons.hoa;
-  return icons.def;
+// ICONS BY SUBJECT (online icons)
+function extIcon(name, subject=""){
+  const s=normalize(subject);
+  if(s.includes('toan')) return `<i class="fa-solid fa-square-root-variable" style="color:#3b82f6"></i>`;
+  if(s.includes('ly')||s.includes('li')) return `<i class="fa-solid fa-telescope" style="color:#a78bfa"></i>`;
+  if(s.includes('hoa')) return `<i class="fa-solid fa-flask" style="color:#22d3ee"></i>`;
+  if(/pdf/i.test(name)) return `<i class="fa-solid fa-file-pdf" style="color:#ef4444"></i>`;
+  if(/doc/i.test(name)) return `<i class="fa-solid fa-file-word" style="color:#2563eb"></i>`;
+  return `<i class="fa-solid fa-file-lines" style="color:#94a3b8"></i>`;
 }
 
 function card(f){
   const title=`${f.grade}-${f.num}-${f.subject}`;
-  return `<div class='card'>
-    <div class='top-badge'>${f.grade}</div>
-    <div class='card-top'>
-      <div class='file-icon'>${subjectIcon(f.subject)}</div>
+  return `<div class="card">
+    <div class="top-badge">${f.grade}</div>
+    <div class="card-top">
+      <div class="file-icon">${extIcon(f.name,f.subject)}</div>
       <div>
-        <div class='name'>${title}</div>
-        <div class='sub desc-ellipsis'>${f.desc}</div>
+        <div class="name">${title}</div>
+        <div class="sub desc-ellipsis">${f.desc}</div>
       </div>
     </div>
-    <div class='actions'>
-      <button class='btn-view' onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
-      <a class='btn-dl' href='${f.download_url}' download>⬇ Tải</a>
+    <div class="actions">
+      <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
+      <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
     </div>
   </div>`;
 }
@@ -177,7 +159,7 @@ function apply(){
     grid.innerHTML=['12','11','10'].map(g=>{
       const items=list.filter(f=>f.grade==g).sort(sortDesc);
       if(!items.length) return '';
-      return `<div class='section'><h3>Lớp ${g}</h3><div class='row'>${items.map(card).join('')}</div></div>`;
+      return `<div class="section"><h3>Lớp ${g}</h3><div class="row">${items.map(card).join('')}</div></div>`;
     }).join('');
     return;
   }
