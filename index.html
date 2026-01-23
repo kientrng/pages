@@ -4,132 +4,57 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Chốn Học Tập — KienDev_</title>
-
+<link rel="icon" href="avatar.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+/* ===== THEME (from both files) ===== */
 :root{
   --bg:#030516;
+  --card:#081225;
   --muted:#95a5c7;
   --accent1:#7C3AED;
   --accent2:#06B6D4;
   --pink1:#ffb86b;
   --pink2:#ff6bcb;
-  --card:#081225;
 }
 *{box-sizing:border-box;font-family:Poppins}
 body{margin:0;background:var(--bg);color:#eaf2ff}
 .wrap{max-width:1200px;margin:auto;padding:18px}
 
-/* ===== Header ===== */
-.top{
-  display:flex;gap:14px;align-items:center;
-  padding:16px;border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
-  border:1px solid rgba(255,255,255,.04)
-}
+/* ===== TOP ===== */
+.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
 .avatar{width:64px;height:64px;border-radius:14px}
 .title h1{margin:0;font-size:20px}
 .title p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.controls{margin-left:auto}
-.search{
-  padding:10px 14px;border-radius:10px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.06);
-  color:white
-}
+.controls{margin-left:auto;display:flex;gap:6px;align-items:center}
+.search{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:white}
 
-/* ===== Categories ===== */
-.section-row{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
-.pill{
-  padding:8px 14px;border-radius:999px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.04);
-  color:var(--muted);font-weight:700;
-  cursor:pointer;transition:.18s
-}
-.pill.active{
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  color:white;transform:translateY(-2px)
-}
+/* ===== FILTERS ===== */
+.filters{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer}
+.filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
 
-/* ===== Recent ===== */
+/* ===== RECENT ===== */
 .recent-wrap{margin-top:22px}
-.recent-head{display:flex;justify-content:space-between;align-items:center}
-.recent-track-wrap{overflow:hidden;margin-top:12px}
-.recent-track{
-  display:flex;gap:14px;
-  transition:transform .45s cubic-bezier(.22,.9,.3,1)
-}
-.recent-card{
-  min-width:280px;
-  background:var(--card);
-  padding:14px;border-radius:14px;
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:0 8px 30px rgba(0,0,0,.45)
-}
+.recent-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px}
+.recent-row::-webkit-scrollbar{height:8px}
+.recent-row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
 
-/* ===== Arrows ===== */
-.arrow-btn{
-  width:44px;height:38px;border-radius:10px;
-  border:0;cursor:pointer;
-  background:linear-gradient(180deg,#111638,#071025);
-  color:white;font-weight:800;
-  transition:.15s
-}
-.arrow-btn:hover{transform:translateY(-3px)}
-
-/* ===== Grid ===== */
-.grid{
-  margin-top:26px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px
-}
-.card{
-  position:relative;
-  padding:16px;border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
-  border:1px solid rgba(255,255,255,.05);
-  transition:.18s
-}
+/* ===== GRID ===== */
+.grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{padding:16px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
 .card:hover{transform:translateY(-6px)}
-.card:hover .top-badge{opacity:1;transform:scale(1)}
+.top-badge{position:absolute;top:12px;left:12px;padding:4px 8px;font-size:12px;font-weight:800;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
 
-/* ===== Badge (FIXED) ===== */
-.top-badge{
-  position:absolute;left:12px;top:12px;
-  padding:4px 8px;
-  font-size:12px;font-weight:800;
-  border-radius:8px;
-  background:linear-gradient(90deg,var(--pink1),var(--pink2));
-  color:#071023;
-  opacity:0;
-  transform:scale(.85);
-  transition:.18s;
-  pointer-events:none
-}
-
-/* ===== Buttons ===== */
-.actions{display:flex;gap:10px;margin-top:14px}
-.btn-view{
-  flex:1;padding:10px;border-radius:10px;
-  border:0;cursor:pointer;font-weight:700;
-  background:linear-gradient(90deg,#0ea5e9,#7c3aed);
-  color:white
-}
-.btn-dl{
-  flex:1;padding:10px;border-radius:10px;
-  background:linear-gradient(90deg,var(--pink1),var(--pink2));
-  color:#071023;font-weight:700;
-  text-decoration:none;display:flex;align-items:center;justify-content:center
-}
+.actions{margin-top:14px;display:flex;gap:10px}
+.btn-view{flex:1;padding:10px;border-radius:10px;border:0;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white}
+.btn-dl{flex:1;padding:10px;border-radius:10px;font-weight:700;text-decoration:none;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-
   <div class="top">
     <img src="avatar.png" class="avatar">
     <div class="title">
@@ -137,123 +62,80 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
       <p>Code by KienDev — Xem & Tải tài liệu</p>
     </div>
     <div class="controls">
-      <input id="q" class="search" placeholder="Tìm mã đề (tùy chọn)">
+      <input id="q" class="search" placeholder="Tìm mã đề...">
     </div>
   </div>
 
-  <!-- Categories -->
-  <div class="section-row" id="categories">
-    <div class="pill active" data-cat="all">Tất cả</div>
-    <div class="pill" data-cat="recent">Mới nhất</div>
-    <div class="pill" data-cat="10">Lớp 10</div>
-    <div class="pill" data-cat="11">Lớp 11</div>
-    <div class="pill" data-cat="12">Lớp 12</div>
+  <div class="filters">
+    <button class="active" onclick="setFilter('all',this)">Tất cả</button>
+    <button onclick="setFilter('recent',this)">🆕 Gần đây</button>
+    <button onclick="setFilter('10',this)">Lớp 10</button>
+    <button onclick="setFilter('11',this)">Lớp 11</button>
+    <button onclick="setFilter('12',this)">Lớp 12</button>
   </div>
 
-  <!-- Recent -->
   <div class="recent-wrap">
-    <div class="recent-head">
-      <div><b>File gần đây</b><br><span style="color:var(--muted);font-size:13px">6 file mới up — 2 file / lớp</span></div>
-      <div>
-        <button class="arrow-btn" id="prev">◀</button>
-        <button class="arrow-btn" id="next">▶</button>
-      </div>
-    </div>
-    <div class="recent-track-wrap">
-      <div id="recentTrack" class="recent-track"></div>
-    </div>
+    <h3>File gần đây</h3>
+    <div id="recent" class="recent-row"></div>
   </div>
 
-  <!-- Grid -->
-  <div id="grid" class="grid"></div>
-
+  <div class="grid" id="grid"></div>
 </div>
 
 <script>
-const owner="kientrng",repo="pages",folder="files";
+/* ===== DATA ===== */
+const owner="kientrng", repo="pages", folder="files";
 const api=`https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
 
 const grid=document.getElementById("grid");
-const recentTrack=document.getElementById("recentTrack");
-const categories=document.getElementById("categories");
+const recent=document.getElementById("recent");
 const q=document.getElementById("q");
+let all=[],current="all";
 
-let all=[],pageCat="all",offset=0;
-
-/* helpers */
 const clean=n=>n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
-function parse(n){
-  const p=clean(n).split("-");
-  return{cls:p[0],num:p[1],title:p.slice(2).join("-")||p[1]}
-}
-function sortDesc(a,b){
-  return b.parsed.cls-a.parsed.cls||b.parsed.num-a.parsed.num
-}
+function parse(f){const p=clean(f.name).split("-");return{...f,grade:p[0],num:p[1],title:p.slice(2).join("-")||p[1]}}
+const sortDesc=(a,b)=>b.grade-a.grade||b.num-a.num;
 
-/* load */
-fetch(api).then(r=>r.json()).then(d=>{
-  all=d.filter(f=>f.type==="file").map(f=>({...f,parsed:parse(f.name)}));
-  buildRecent();
-  renderGrid(); // ✅ FIX: render ngay khi load
-});
+function card(f){return `
+<div class="card">
+  <div class="top-badge">${f.grade}</div>
+  <b>${f.grade}-${f.num}-${f.title}</b>
+  <div style="color:var(--muted);margin-top:6px">${f.name}</div>
+  <div class="actions">
+    <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
+    <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
+  </div>
+</div>`}
 
-/* recent */
-function buildRecent(){
-  const pick=cls=>all.filter(f=>f.parsed.cls==cls).sort(sortDesc).slice(0,2);
-  const recent=[...pick(12),...pick(11),...pick(10)];
-  recentTrack.innerHTML="";
-  recent.forEach(f=>{
-    recentTrack.innerHTML+=`
-      <div class="recent-card">
-        <b>${f.parsed.cls}-${f.parsed.num}-${f.parsed.title}</b>
-        <div style="color:var(--muted);margin-top:6px">${f.name}</div>
-        <div class="actions">
-          <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
-          <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
-        </div>
-      </div>`;
-  });
+function render(list){grid.innerHTML=list.map(card).join("")}
+function renderRecent(){
+  const pick=g=>all.filter(f=>f.grade==g).sort(sortDesc).slice(0,2);
+  recent.innerHTML=[...pick(12),...pick(11),...pick(10)].map(card).join("")
 }
 
-/* grid */
-function renderGrid(){
+function setFilter(t,b){
+  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  current=t;apply();
+}
+
+function apply(){
   let list=[...all];
-  if(pageCat==="recent") list.sort(sortDesc);
-  if(["10","11","12"].includes(pageCat)) list=list.filter(f=>f.parsed.cls==pageCat);
+  if(current==='recent') list=list.sort(sortDesc).slice(0,6);
+  if(['10','11','12'].includes(current)) list=list.filter(f=>f.grade==current);
   const k=q.value.toLowerCase();
   if(k) list=list.filter(f=>f.name.toLowerCase().includes(k));
-
-  grid.innerHTML="";
-  list.forEach(f=>{
-    grid.innerHTML+=`
-      <div class="card">
-        <div class="top-badge">${f.parsed.cls}</div>
-        <b>${f.parsed.cls}-${f.parsed.num}-${f.parsed.title}</b>
-        <div style="color:var(--muted);margin-top:6px">${f.name}</div>
-        <div class="actions">
-          <button class="btn-view" onclick="openView('${f.download_url}','${f.name}')">👁 Xem</button>
-          <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
-        </div>
-      </div>`;
-  });
+  render(list);
 }
 
-/* events */
-categories.onclick=e=>{
-  const p=e.target.closest(".pill");
-  if(!p)return;
-  categories.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
-  p.classList.add("active");
-  pageCat=p.dataset.cat;
-  renderGrid();
-};
-q.oninput=()=>renderGrid();
-document.getElementById("prev").onclick=()=>recentTrack.style.transform="translateX(0)";
-document.getElementById("next").onclick=()=>recentTrack.style.transform="translateX(-300px)";
+q.oninput=apply;
 
-function openView(u,n){
-  location.href=`view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}`
-}
+function openView(u,n){location.href=`view.html?file=${encodeURIComponent(u)}&name=${encodeURIComponent(n)}`}
+
+fetch(api).then(r=>r.json()).then(d=>{
+  all=d.filter(x=>x.type==='file').map(parse);
+  renderRecent();apply();
+});
 </script>
 </body>
 </html>
