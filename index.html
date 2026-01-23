@@ -53,6 +53,9 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
 /* ===== GRID ===== */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 
+/* Ensure grade rows in 'Gần đây' span full width and stack vertically */
+.grade-block{grid-column:1 / -1; margin-bottom:14px} 
+
 /* ===== CARD ===== */
 .card{padding:16px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid rgba(255,255,255,.05);position:relative;transition:.2s}
 .card:hover{transform:translateY(-6px)}
@@ -204,16 +207,16 @@ function apply(){
     return;
   }
 
-  // TAB "GẦN ĐÂY": render 3 separate horizontal rows (12,11,10)
+  // TAB "GẦN ĐÂY": render 3 separate horizontal rows (10,11,12) each full-width
   if(current==='recent'){
     // hide top "File gần đây" section
     document.getElementById('recentSection').style.display = 'none';
-    const grades = ['12','11','10'];
+    const grades = ['10','11','12']; // user requested 10,11,12 order
     grid.innerHTML = grades.map(g=>{
       const items = list.filter(f=>f.grade==g).sort(sortDesc);
       if(!items.length) return '';
       return `
-        <div class="section">
+        <div class="section grade-block">
           <h3 style="margin:0 0 8px;color:var(--muted)">Lớp ${g}</h3>
           <div class="recent-row">
             ${items.map(card).join('')}
@@ -232,6 +235,7 @@ function apply(){
     return;
   }
 }
+
 
 q.oninput = apply;
 
