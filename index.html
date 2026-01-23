@@ -190,7 +190,15 @@ function setFilter(t,b){
 }
 
 function apply(){
-  let list=[...all];
+  let list = [...all];
+
+  const keyword = q.value.trim().toLowerCase();
+  if(keyword){
+    list = list.filter(f => {
+      const text = `${f.grade}-${f.num}-${f.subject}-${f.desc}`.toLowerCase();
+      return text.includes(keyword);
+    });
+  }
 
   // 🔹 TAB "TẤT CẢ" → sort theo (lớp)-(số)-(môn) giảm dần
   if(current==='all'){
