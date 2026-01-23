@@ -130,7 +130,17 @@ function parse(f){
   return {...f, grade, num, subject, desc };
 }
 
-const sortDesc=(a,b)=> (b.grade - a.grade) || (b.num - a.num);
+// sort theo (lớp)-(số)-(môn) giảm dần
+const sortDesc = (a,b)=>{
+  // lớp: 12 -> 11 -> 10
+  const g = Number(b.grade) - Number(a.grade);
+  if(g!==0) return g;
+  // số: lớn -> nhỏ
+  const n = Number(b.num) - Number(a.num);
+  if(n!==0) return n;
+  // môn: so sánh chữ (Z -> A)
+  return b.subject.localeCompare(a.subject,'vi',{sensitivity:'base'});
+};
 
 function card(f){
   const topLine = `${f.grade}-${f.num}-${f.subject}`.replace(/^-|-$|--/g,'');
