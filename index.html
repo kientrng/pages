@@ -16,6 +16,14 @@
   --accent2:#06B6D4;
   --pink1:#ffb86b;
   --pink2:#ff6bcb;
+  --grade10-start: #FF9966; /* orange */
+  --grade10-end: #FF5E7E;
+  --grade11-start: #7C3AED; /* purple */
+  --grade11-end: #06B6D4;
+  --grade12-start: #06B6D4; /* teal */
+  --grade12-end: #34D1FF;
+  --file-note-start: #6B7280;
+  --file-note-end: #111827;
 }
 *{box-sizing:border-box;font-family:Poppins}
 body{margin:0;background:var(--bg);color:#eaf2ff}
@@ -31,8 +39,16 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
 
 /* ===== FILTERS ===== */
 .filters{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
-.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white;cursor:pointer;font-size:13px}
+.filters button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);color:white;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:8px}
 .filters button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
+.filters .btn-icon{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.filters button.active .btn-icon{box-shadow:0 4px 18px rgba(0,0,0,0.25)}
+/* icon colors for filter buttons */
+.filters .icon-all{background:linear-gradient(90deg,var(--accent1),var(--accent2))}
+.filters .icon-recent{background:linear-gradient(90deg,#2dd4bf,#7c3aed)}
+.filters .icon-10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
+.filters .icon-11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
+.filters .icon-12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
 
 /* ===== SECTIONS ===== */
 .section{margin-top:22px}
@@ -53,7 +69,12 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
 .top-badge{position:absolute;top:14px;left:14px;padding:4px 8px;font-size:11px;font-weight:700;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023}
 
 .card-top{display:flex;gap:12px;align-items:center}
-.file-icon{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:26px}
+.file-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff}
+.file-icon.grade-10{background:linear-gradient(90deg,var(--grade10-start),var(--grade10-end))}
+.file-icon.grade-11{background:linear-gradient(90deg,var(--grade11-start),var(--grade11-end))}
+.file-icon.grade-12{background:linear-gradient(90deg,var(--grade12-start),var(--grade12-end))}
+.file-icon.other{background:linear-gradient(90deg,var(--file-note-start),var(--file-note-end));color:#fff}
+
 .name{font-weight:700;font-size:15px}
 .sub{font-size:12px;color:var(--muted);margin-top:4px}
 
@@ -75,16 +96,16 @@ body{margin:0;background:var(--bg);color:#eaf2ff}
       <p>Code by KienDev — Xem & Tải tài liệu</p>
     </div>
     <div class="controls">
-      <input id="q" class="search" placeholder="Tìm mã đề - tên đề...">
+      <input id="q" class="search" placeholder="Tìm mã & tên đề...">
     </div>
   </div>
 
   <div class="filters">
-    <button class="active" onclick="setFilter('all',this)">Tất cả</button>
-    <button onclick="setFilter('recent',this)">🆕 Gần đây</button>
-    <button onclick="setFilter('10',this)">Lớp 10</button>
-    <button onclick="setFilter('11',this)">Lớp 11</button>
-    <button onclick="setFilter('12',this)">Lớp 12</button>
+    <button class="active" onclick="setFilter('all',this)"><span class="btn-icon icon-all">🏠</span> Tất cả</button>
+    <button onclick="setFilter('recent',this)"><span class="btn-icon icon-recent">🕘</span> Gần đây</button>
+    <button onclick="setFilter('10',this)"><span class="btn-icon icon-10">10</span> Lớp 10</button>
+    <button onclick="setFilter('11',this)"><span class="btn-icon icon-11">11</span> Lớp 11</button>
+    <button onclick="setFilter('12',this)"><span class="btn-icon icon-12">12</span> Lớp 12</button>
   </div>
 
   <!-- FILE GẦN ĐÂY (phần riêng, hiển thị khi không ở tab Gần đây) -->
@@ -112,7 +133,7 @@ let all=[],current="all";
 // remove extension and preserve unicode
 const clean = n => n.replace(/\.(docx?|pdf|png|jpe?g)$/i,"");
 // choose icon by extension
-const icon = n => /\.pdf$/i.test(n)? '📕' : /\.doc/i.test(n)? '📘' : '📄';
+const icon = n => /\.pdf$/i.test(n)? '📕' : /\.doc/i.test(n)? '📘' : '🗒️';
 
 /*
   Parse filename format: (lớp)-(số)-(môn)-(mô tả).ext
@@ -143,13 +164,21 @@ const sortDesc = (a,b)=>{
   return b.subject.localeCompare(a.subject,'vi',{sensitivity:'base'});
 };
 
+function fileIconClass(grade){
+  if(grade==='10') return 'grade-10';
+  if(grade==='11') return 'grade-11';
+  if(grade==='12') return 'grade-12';
+  return 'other';
+}
+
 function card(f){
   const topLine = `${f.grade}-${f.num}-${f.subject}`.replace(/^-|-$|--/g,'');
+  const cls = fileIconClass(f.grade);
   return `
 <div class="card">
   <div class="top-badge">${f.grade}</div>
   <div class="card-top">
-    <div class="file-icon">${icon(f.name)}</div>
+    <div class="file-icon ${cls}">${icon(f.name)}</div>
     <div>
       <div class="name">${topLine}</div>
       <div class="sub desc-ellipsis">${escapeHtml(f.desc)}</div>
@@ -234,4 +263,3 @@ fetch(api).then(r=>r.json()).then(d=>{
 </script>
 </body>
 </html>
-
