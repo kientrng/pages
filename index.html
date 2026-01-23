@@ -1,364 +1,217 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Chốn Học Tập — KienDev_</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Chọn Học Tập – KienDev</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 :root{
-  --bg:#030516;
-  --muted:#95a5c7;
-  --accent1:#7C3AED;
-  --accent2:#06B6D4;
-  --pink1:#ffb86b;
-  --pink2:#ff6bcb;
-  --card:#081225;
-  --glass: rgba(255,255,255,0.03);
+  --bg:#050b1a;
+  --card:#0c1426;
+  --border:rgba(255,255,255,.06);
+  --text:#e6ebff;
 }
-*{box-sizing:border-box;font-family:"Poppins",sans-serif}
-body{margin:0;background:var(--bg);color:#eaf2ff}
-.wrap{max-width:1200px;margin:18px auto;padding:18px}
-
-/* header */
-.top{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.04)}
-.avatar{width:64px;height:64px;border-radius:12px;object-fit:cover}
-.title h1{margin:0;font-size:20px}
-.title p{margin:4px 0 0;color:var(--muted);font-size:13px}
-
-/* controls */
-.controls{margin-left:auto;display:flex;gap:8px;align-items:center}
-.search{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);color:#eaf2ff}
-
-/* pills / categories */
-.section-row{margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.pill{padding:8px 14px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);cursor:pointer;color:var(--muted);font-weight:700;transition:all .18s ease}
-.pill.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 12px 28px rgba(124,58,237,0.12);transform:translateY(-2px)}
-
-/* recent (6 cards track) */
-.recent-wrap{margin-top:18px}
-.recent-head{display:flex;align-items:center;justify-content:space-between}
-.recent-head .hint{color:var(--muted);font-size:13px}
-.recent-track-wrap{position:relative;margin-top:12px;overflow:hidden;padding:6px 0}
-.recent-track{display:flex;gap:12px;transition:transform .42s cubic-bezier(.22,.9,.3,1);will-change:transform}
-.recent-card{
-  min-width:300px;max-width:300px;background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
-  box-shadow:0 8px 28px rgba(2,6,23,0.5);
-  transform:translateY(0);
+*{box-sizing:border-box;font-family:Inter,system-ui}
+body{
+  margin:0;
+  background:radial-gradient(1200px 600px at 20% -10%,#162048,#050b1a);
+  color:var(--text);
 }
-.recent-top{display:flex;gap:12px;align-items:center}
-.recent-name{font-weight:700}
-.recent-sub{color:var(--muted);font-size:13px;margin-top:8px}
+.container{max-width:1200px;margin:auto;padding:32px}
 
-/* nav arrows - custom & animated */
-.recent-nav{display:flex;gap:8px;align-items:center}
-.arrow-btn{
-  width:46px;height:40px;border-radius:10px;border:0;cursor:pointer;
-  background:linear-gradient(180deg,#0f1630,#071025);color:white;
-  box-shadow:0 10px 30px rgba(2,6,23,0.6);display:inline-flex;align-items:center;justify-content:center;font-weight:800;
-  transition:transform .12s ease, box-shadow .18s ease;
+/* ===== HEADER ===== */
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px;border-radius:16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
 }
-.arrow-btn:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(2,6,23,0.75)}
-.arrow-btn:active{transform:translateY(-2px)}
-
-/* grid area (cards by category) */
-.grid{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.card{padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.04);transition:transform .18s ease, box-shadow .18s ease}
-.card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(2,6,23,0.45)}
-.top-badge{position:absolute;left:14px;top:14px;padding:6px 8px;border-radius:8px;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;font-weight:800}
-
-/* small button styles inside cards */
-.card-actions{display:flex;gap:10px;margin-top:14px}
-.btn-view{flex:1;padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,#0ea5e9,#7c3aed);color:white;cursor:pointer;font-weight:700}
-.btn-dl{flex:1;padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#071023;cursor:pointer;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-
-/* pagination nicer */
-.paging{display:flex;gap:10px;align-items:center;margin-top:14px;justify-content:flex-end}
-.page-btn{padding:8px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;background:linear-gradient(90deg,#f6f1ff,#e6f6ff);color:#071023;box-shadow:0 8px 24px rgba(124,58,237,0.08);transition:transform .12s ease}
-.page-btn:hover{transform:translateY(-3px)}
-
-/* responsive tweaks */
-@media(max-width:980px){ .recent-card{min-width:240px;max-width:240px} }
-@media(max-width:640px){
-  .recent-card{min-width:200px;max-width:200px}
-  .search{width:140px}
+.header h1{margin:0;font-size:22px}
+.search input{
+  background:#0c1426;border:1px solid var(--border);
+  color:#fff;padding:10px 14px;border-radius:10px;
 }
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:10px;margin:28px 0}
+.tab{
+  padding:10px 16px;border-radius:999px;
+  border:1px solid var(--border);
+  cursor:pointer;
+  opacity:.75;
+}
+.tab.active{
+  background:linear-gradient(90deg,#6d5cff,#2fd2ff);
+  opacity:1;border:none;
+}
+
+/* ===== SECTION ===== */
+.section-title{
+  display:flex;justify-content:space-between;align-items:center;
+  margin:18px 0;
+}
+.nav-btns button{
+  width:38px;height:38px;border-radius:10px;
+  border:1px solid var(--border);
+  background:#0c1426;color:#fff;
+  cursor:pointer;
+}
+
+/* ===== RECENT ===== */
+.recent-wrap{overflow:hidden}
+.recent{
+  display:flex;gap:18px;
+  transition:transform .4s ease;
+}
+.card{
+  min-width:260px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  position:relative;
+  transition:.2s;
+}
+.card:hover{transform:translateY(-4px)}
+.card h3{margin:6px 0}
+.actions{display:flex;gap:10px;margin-top:12px}
+.actions a{
+  flex:1;text-align:center;
+  padding:10px;border-radius:10px;
+  text-decoration:none;color:#fff;font-weight:600;
+}
+.view{background:linear-gradient(90deg,#2fd2ff,#6d5cff)}
+.down{background:linear-gradient(90deg,#ffb86b,#ff6bcb)}
+
+/* badge lớp */
+.badge{
+  position:absolute;top:10px;left:10px;
+  background:linear-gradient(90deg,#ffb86b,#ff6bcb);
+  color:#000;font-weight:800;
+  padding:4px 6px;font-size:12px;
+  border-radius:6px;
+  opacity:0;transform:scale(.7);
+  transition:.2s;
+}
+.card:hover .badge{
+  opacity:1;transform:scale(1);
+}
+
+/* ===== GRID ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.hidden{display:none}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-  <div class="top">
-    <img src="avatar.png" class="avatar" alt="avatar">
-    <div class="title">
-      <h1>CHỐN HỌC TẬP</h1>
-      <p>Code by KienDev — Xem & Tải tài liệu</p>
-    </div>
+<div class="container">
 
-    <div class="controls">
-      <input id="q" class="search" placeholder="Tìm mã đề (tùy chọn)">
-    </div>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📘 CHỌN HỌC TẬP<br><small style="opacity:.7">Code by KienDev</small></h1>
+    <div class="search"><input placeholder="Tìm mã đề..."></div>
   </div>
 
-  <!-- 1) categories -->
-  <div class="section-row" id="categories">
-    <div class="pill active" data-cat="all">Tất cả</div>
-    <div class="pill" data-cat="recent">Mới nhất</div>
-    <div class="pill" data-cat="10">Lớp 10</div>
-    <div class="pill" data-cat="11">Lớp 11</div>
-    <div class="pill" data-cat="12">Lớp 12</div>
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" data-tab="all">Tất cả</div>
+    <div class="tab" data-tab="new">Mới nhất</div>
+    <div class="tab" data-tab="10">Lớp 10</div>
+    <div class="tab" data-tab="11">Lớp 11</div>
+    <div class="tab" data-tab="12">Lớp 12</div>
   </div>
 
-  <!-- 2) recent: 6 cards (2 per class 12,11,10) with nav -->
-  <div class="recent-wrap" id="recentWrap">
-    <div class="recent-head">
-      <div>
-        <div style="font-weight:800">File gần đây</div>
-        <div class="hint">6 file mới up — sắp xếp (lớp)-(số)-(môn) từ lớn → bé, 2 file cho mỗi lớp</div>
-      </div>
-      <div class="recent-nav">
-        <button class="arrow-btn" id="recentPrev">◀</button>
-        <button class="arrow-btn" id="recentNext">▶</button>
-      </div>
-    </div>
-
-    <div class="recent-track-wrap">
-      <div id="recentTrack" class="recent-track"></div>
+  <!-- RECENT -->
+  <div class="section-title">
+    <h3>File gần đây</h3>
+    <div class="nav-btns">
+      <button onclick="slide(-1)">◀</button>
+      <button onclick="slide(1)">▶</button>
     </div>
   </div>
 
-  <!-- 3) grid of cards by category -->
-  <div id="grid" class="grid"></div>
-
-  <!-- paging -->
-  <div class="paging">
-    <div id="summary" style="color:var(--muted)">Đang tải...</div>
-    <button id="prevPage" class="page-btn">« Trước</button>
-    <button id="nextPage" class="page-btn">Sau »</button>
+  <div class="recent-wrap">
+    <div class="recent" id="recent"></div>
   </div>
+
+  <!-- GRID -->
+  <div id="grid" class="grid hidden"></div>
+
 </div>
 
 <script>
-/* CONFIG */
-const owner = "kientrng", repo = "pages", folder = "files";
-const api = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
+/* ===== DATA ===== */
+const files=[
+ {l:12,s:2,m:'Toán'},{l:12,s:1,m:'Toán'},
+ {l:11,s:3,m:'Toán'},{l:11,s:2,m:'Toán'},
+ {l:10,s:3,m:'Toán'},{l:10,s:3,m:'Lí'},
+ {l:10,s:2,m:'Hóa'}
+];
 
-/* HELPERS */
-const el = id => document.getElementById(id);
-const extIcon = (name)=>{
-  const e = name.split('.').pop().toLowerCase();
-  if(/doc|docx/.test(e)) return "📘";
-  if(e==="pdf") return "📕";
-  if(/png|jpe?g|gif/.test(e)) return "🖼️";
-  if(/ppt|pptx/.test(e)) return "📊";
-  return "📄";
-};
-const clean = s => s.replace(/\.(docx?|pdf|png|jpe?g|pptx?)$/i,"");
-function parseName(n){
-  const base = clean(n);
-  const parts = base.split("-");
-  const cls = parts[0] || "";
-  const num = parts[1] || "";
-  const clsNum = parseInt(cls,10) || 0;
-  const numNum = parseInt(num,10) || 0;
-  const subject = parts.slice(2).join("-") || parts.slice(1).join("-");
-  return {cls, clsNum, num, numNum, subject, title: subject || base};
-}
+const recentEl=document.getElementById('recent');
+const grid=document.getElementById('grid');
 
-/* STATE */
-let allFiles = []; // objects from GitHub API + parsed
-let currentCategory = 'all';
-let currentPage = 1;
-const pageSize = 12;
-
-/* UI elements */
-const categories = document.getElementById('categories');
-const recentTrack = document.getElementById('recentTrack');
-const recentPrev = document.getElementById('recentPrev');
-const recentNext = document.getElementById('recentNext');
-
-/* Load files from GitHub contents endpoint */
-async function loadFiles(){
-  try{
-    const r = await fetch(api);
-    if(!r.ok) throw new Error("Lỗi API");
-    const data = await r.json();
-    allFiles = data.filter(f=>f.type==="file").map(f=> ({...f, parsed: parseName(f.name)}));
-    buildRecent(); renderGridByCategory(); updateSummary();
-  }catch(e){
-    console.error(e);
-    el('grid').innerHTML = `<div style="padding:20px;color:var(--muted)">Không tải được file.</div>`;
-  }
-}
-
-/* 2) Build recentTrack exactly 6 cards: 2 from 12, 2 from 11, 2 from 10 in that order (desc) */
-function buildRecent(){
-  // helper: get top N for class sorted desc by clsNum,numNum,name
-  function topForClass(cls, n){
-    return allFiles.filter(f=>String(f.parsed.cls)===String(cls))
-      .sort((a,b)=>{
-        if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
-        if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
-        return b.name.localeCompare(a.name);
-      })
-      .slice(0,n);
-  }
-  const want = [];
-  want.push(...topForClass(12,2));
-  want.push(...topForClass(11,2));
-  want.push(...topForClass(10,2));
-  // if less than 6, fill with others following same ordering
-  if(want.length < 6){
-    const extras = allFiles.filter(f => !want.includes(f))
-      .sort((a,b)=>{
-        if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
-        if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
-        return b.name.localeCompare(a.name);
-      }).slice(0, 6 - want.length);
-    want.push(...extras);
-  }
-  // limit 6
-  const recent = want.slice(0,6);
-  // render
-  recentTrack.innerHTML = "";
-  recent.forEach(f=>{
-    const n = f.name; const p = f.parsed;
-    const card = document.createElement('div'); card.className = 'recent-card';
-    card.innerHTML = `
-      <div class="recent-top">
-        <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">${extIcon(n)}</div>
-        <div>
-          <div class="recent-name">${p.cls}-${p.num}-${p.title}</div>
-          <div class="recent-sub">${n}</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button class="btn-view" onclick="openView('${encodeURIComponent(f.download_url)}','${encodeURIComponent(f.name)}')">👁 Xem</button>
-        <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
-      </div>
-    `;
-    recentTrack.appendChild(card);
-  });
-  // reset position
-  recentTrack.style.transform = 'translateX(0)';
-}
-
-/* recent nav: scroll by 2 cards (to show different groups) */
-let recentIndex = 0;
-function recentScroll(dir){
-  const cards = recentTrack.children;
-  if(!cards || cards.length===0) return;
-  const cardW = cards[0].getBoundingClientRect().width + 12;
-  const visible = Math.max(1, Math.floor((recentTrack.parentElement.clientWidth) / cardW));
-  const maxIndex = Math.max(0, cards.length - visible);
-  if(dir === 'next') recentIndex = Math.min(maxIndex, recentIndex + 1);
-  else recentIndex = Math.max(0, recentIndex - 1);
-  recentTrack.style.transform = `translateX(${-(recentIndex * cardW)}px)`;
-}
-
-/* 3) Grid rendering by category (all / recent / class 10/11/12)
-   - 'recent' for grid sorts allFiles descending by cls-num-name (so newest first)
-   - class filters by class
-   - 'all' sorts by name asc (stable)
-*/
-function applyCategory(files, cat){
-  if(!cat || cat === 'all'){
-    return files.slice().sort((a,b)=> a.name.localeCompare(b.name));
-  }
-  if(cat === 'recent'){
-    return files.slice().sort((a,b)=>{
-      if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
-      if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
-      return b.name.localeCompare(a.name);
-    });
-  }
-  // class filter 10/11/12
-  return files.filter(f=> String(f.parsed.cls) === String(cat))
-    .sort((a,b)=>{
-      if(b.parsed.clsNum !== a.parsed.clsNum) return b.parsed.clsNum - a.parsed.clsNum;
-      if(b.parsed.numNum !== a.parsed.numNum) return b.parsed.numNum - a.parsed.numNum;
-      return b.name.localeCompare(a.name);
-    });
-}
-
-function renderGridByCategory(page=1){
-  const catPill = categories.querySelector('.pill.active');
-  const cat = catPill ? catPill.dataset.cat : 'all';
-  const filtered = applyCategory(allFiles, cat);
-  const q = el('q').value.trim().toLowerCase();
-  const searchFiltered = q ? filtered.filter(f=> f.name.toLowerCase().includes(q)) : filtered;
-  const total = searchFiltered.length;
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  if(page < 1) page = 1; if(page > totalPages) page = totalPages;
-  currentPage = page;
-  const start = (page-1)*pageSize, end = start + pageSize;
-  const pageItems = searchFiltered.slice(start, end);
-
-  const grid = el('grid');
-  if(!pageItems.length){
-    grid.innerHTML = `<div style="padding:20px;color:var(--muted)">Không có file.</div>`;
-  } else {
-    grid.innerHTML = "";
-    pageItems.forEach(f=>{
-      const n=f.name, p=f.parsed;
-      const div = document.createElement('div'); div.className = 'card';
-      div.style.position = 'relative';
-      div.innerHTML = `
-        <div class="top-badge">${p.cls}</div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">${extIcon(n)}</div>
-          <div>
-            <div style="font-weight:800">${p.cls}-${p.num}-${p.title}</div>
-            <div style="color:var(--muted);font-size:13px;margin-top:6px">${n}</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:12px" class="card-actions">
-          <button class="btn-view" onclick="openView('${encodeURIComponent(f.download_url)}','${encodeURIComponent(f.name)}')">👁 Xem</button>
-          <a class="btn-dl" href="${f.download_url}" download>⬇ Tải</a>
-        </div>
-      `;
-      grid.appendChild(div);
-    });
-  }
-  el('summary').innerText = `Hiển thị ${Math.min(total, (page-1)*pageSize+1)} - ${Math.min(total, page*pageSize)} / ${total} file • Trang ${currentPage}/${totalPages}`;
-}
-
-/* open view (original behavior) */
-function openView(rawEnc, nameEnc){
-  const raw = decodeURIComponent(rawEnc);
-  const name = decodeURIComponent(nameEnc);
-  location.href = `view.html?file=${encodeURIComponent(raw)}&name=${encodeURIComponent(name)}`;
-}
-
-/* events */
-categories.addEventListener('click', (ev)=>{
-  const pill = ev.target.closest('.pill');
-  if(!pill) return;
-  categories.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
-  pill.classList.add('active');
-  currentCategory = pill.dataset.cat;
-  // when switching category, grid updates. recent always visible above.
-  renderGridByCategory(1);
+/* ===== SORT ===== */
+const sorted=[...files].sort((a,b)=>{
+ if(b.l!==a.l) return b.l-a.l;
+ if(b.s!==a.s) return b.s-a.s;
+ return b.m.localeCompare(a.m);
 });
 
-/* recent nav */
-recentPrev.addEventListener('click', ()=> recentScroll('prev'));
-recentNext.addEventListener('click', ()=> recentScroll('next'));
-
-/* paging */
-el('prevPage').addEventListener('click', ()=> renderGridByCategory(currentPage-1));
-el('nextPage').addEventListener('click', ()=> renderGridByCategory(currentPage+1));
-
-/* search updates both recent build (to filter) and grid */
-el('q').addEventListener('input', ()=>{
-  buildRecent();
-  renderGridByCategory(1);
+/* ===== RECENT (6 file – 2 mỗi lớp) ===== */
+const recent=[];
+[12,11,10].forEach(l=>{
+ recent.push(...sorted.filter(f=>f.l===l).slice(0,2));
 });
 
-/* initial load */
-loadFiles();
+recent.forEach(f=>recentEl.append(card(f)));
 
-/* resize: reset recent index */
-window.addEventListener('resize', ()=> { recentIndex = 0; recentTrack.style.transform = 'translateX(0)'; });
+/* ===== GRID ===== */
+function showGrid(type){
+ grid.innerHTML='';
+ let data=[];
+ if(type==='all') data=sorted;
+ else if(type==='new') data=sorted;
+ else data=sorted.filter(f=>f.l==type);
+
+ data.forEach(f=>grid.append(card(f)));
+ grid.classList.remove('hidden');
+}
+
+/* ===== CARD ===== */
+function card(f){
+ const d=document.createElement('div');
+ d.className='card';
+ d.innerHTML=`
+  <div class="badge">${f.l}</div>
+  <h3>${f.l}-${f.s}-${f.m}</h3>
+  <small>${f.l}-${f.s}-${f.m}.docx</small>
+  <div class="actions">
+    <a class="view">Xem</a>
+    <a class="down">Tải</a>
+  </div>`;
+ return d;
+}
+
+/* ===== TABS ===== */
+document.querySelectorAll('.tab').forEach(t=>{
+ t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const v=t.dataset.tab;
+  if(v==='all'){grid.classList.add('hidden');return;}
+  showGrid(v);
+ };
+});
+
+/* ===== SLIDE ===== */
+let x=0;
+function slide(d){
+ x+=d*280;
+ x=Math.min(0,Math.max(x,-(recentEl.scrollWidth-900)));
+ recentEl.style.transform=`translateX(${x}px)`;
+}
 </script>
 </body>
 </html>
